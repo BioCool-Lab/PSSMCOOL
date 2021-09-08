@@ -37,7 +37,7 @@ library(PSSMCOOL)
 ```
 
 # PSSM-AC
-<font size="4">This feature, which stands for auto-covariance transformation, for column j, calculates the average of this column as shown in Figure 2, Then subtracts the resulting number from the elements on the rows i and i + g of this column, and finally multiplies them and calculates the sum by changing the variable i from 1 to L-g. Because the variable j changes between 1 and 20 and the variable g changes between 1 and 10, eventually a feature vector of length 200 will be obtained [@zou2013accurate].</font>
+<font size="4">This feature, which stands for auto-covariance transformation, for column j, calculates the average of this column as shown in Figure 2, Then subtracts the resulting number from the elements on the rows i and i + g of this column, and finally multiplies them and calculates the sum by changing the variable i from 1 to L-g. Because the variable j changes between 1 and 20 and the variable g changes between 1 and 10, eventually a feature vector of length 200 will be obtained.</font>
 
 <br></br>
 ![](vignettes/figures/pssm_ac.jpg)
@@ -81,8 +81,7 @@ library(PSSMCOOL)
 <font size="4"> This feature is almost identical to the DPC feature, and in fact, the DPC feature is part of this feature (for k = 1) and for two different columns, it considers rows that have distance k.</font>
 
 ![](vignettes/figures/k-separated.jpg)
-<pre>                  Figure 5: process of extracting Pse-PSSM feature vector from PSSM </pre>
-<br></br>
+<pre>                  Figure 6: process of extracting K-separated-bigam-PSSM feature vector from PSSM </pre>
 
 ![](vignettes/figures/screens/k-separated.JPG)
 
@@ -95,313 +94,43 @@ library(PSSMCOOL)
 <pre>                  Figure 7: process of extracting EDP-EEDP-MEDP feature vectors from PSSM </pre>
 <br></br>
 
-
-```{r eedp,echo=FALSE,fig.cap="Figure 7: process of extracting EDP-EEDP-MEDP feature vectors from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/EEDP.jpg")
-```
-<br></br>
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- as<-EDP_MEDP(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GS61.txt.pssm"))
-head(as, n = 50)
-```
-<br></br>
+![](vignettes/figures/screens/edp2.JPG)
 
 # AB-PSSM
 <font size="4"> This feature consists of two types of feature vectors. At first, each protein sequence is divided into 20 equal parts, each of which is called a block, and in each block, the row vectors of the PSSM
-related to that block are added together. The resulting final vector is divided by the length of that block, which is equal to 5% of protein length. Finally, by placing these 20 vectors side by side, the first feature vector of length 400 is obtained. The second feature for each amino acid in each column is the average of the positive numbers in that column and for each block, and these 20 values, corresponding to 20 blocks, are placed next to each other, and therefore for each of the 20 types of amino acids, a vector of length 20 is obtained, and by placing these together,the second feature vector of length 400, is obtained. Figure 8 represents this process [@cheol2010position].</font>
+related to that block are added together. The resulting final vector is divided by the length of that block, which is equal to 5% of protein length. Finally, by placing these 20 vectors side by side, the first feature vector of length 400 is obtained. The second feature for each amino acid in each column is the average of the positive numbers in that column and for each block, and these 20 values, corresponding to 20 blocks, are placed next to each other, and therefore for each of the 20 types of amino acids, a vector of length 20 is obtained, and by placing these together,the second feature vector of length 400, is obtained. Figure 8 represents this process.</font>
 
-```{r ab-pssm,echo=FALSE,fig.cap="Figure 8: process of extracting AB-PSSM feature vectors from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/AB-PSSM.jpg")
-```
-<br></br>
-<font size="4"> usage of this feature in PSSMCOOL package:</font>
+![](vignettes/figures/AB-PSSM.jpg)
+<pre>                  Figure 8: process of extracting AB-PSSM feature vectors from PSSM </pre>
 
-```{r}
-  zz<- AB_PSSM(system.file("extdata","C7GRQ3.txt.pssm",package="PSSMCOOL"))
-head(zz[1], n = 50)
-```
-<br></br>
+![](vignettes/figures/screens/ab-pssm.JPG)
 
 # AATP-TPC
 <font size="4"> In this feature, at first, a TPM matrix is constructed from the PSSM, which has represented by a vector corresponding to the following equation:</font>
+![](vignettes/figures/screens/aatp1.JPG)
 
-\begin{equation}
-Y_{TPM}=(y_{1,1},y_{1,2},...,y_{1,20},...,y_{i,1},...,y_{i,20},...,y_{20,1},...,y_{20,20})^T
-\end{equation}
+<font size="4"> In the above equation, the numerator is the same as the equation related to DPC-PSSM feature without considering its coefficient. By placing these components together, a TPC feature vector of length 400 is obtained, and if we add the AAC feature vector of length 20 which is the average of columns of the PSSM to the beginning of this vector, AATP feature vector of length 420 is obtained.</font>
 
-<br></br>
-<font size="4">Where the components are as follows:</font>
-<br></br>
+![](vignettes/figures/screens/aatp2.JPG)
 
-\begin{equation}
-y_{i,j}=(\sum_{k=1}^{L-1}P_{k,i}\times P_{k+1,j})/(\sum_{j=1}^{20}\sum_{k=1}^{L-1}P_{k+1,j}\times P_{k,i}) \\  1\leq{i,j}\leq{20}
-\end{equation}
-<br></br>
-<font size="4"> In the above equation, the numerator is the same as the equation related to DPC-PSSM feature without considering its coefficient. By placing these components together, a TPC feature vector of length 400 is obtained, and if we add the AAC feature vector of length 20 which is the average of columns of the PSSM to the beginning of this vector, AATP feature vector of length 420 is obtained [@zhang2012using].</font>
-<br></br>
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
+![](vignettes/figures/screens/cs-pse1.JPG)
+![](vignettes/figures/screens/cs-pse2.JPG)
+![](vignettes/figures/screens/cs-pse3.JPG)
 
-```{r}
- as<-AATP_TPCC(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GQS7.txt.pssm"))
-head(as, n = 50)
-```
-<br></br>
-
-# CS-PSe-PSSM
-<font size="4"> This feature consists of a combination of several types of features, and in general, the obtained feature vector would be of length 700. Here all parts of this feature are described separately.</font>
-<br></br>
-
-## CSAAC
-
-<font size="4"> First, the consensus sequence is obtained from the PSSM according to the following equation, then from this consensus sequence next feature vectors are obtained </font>
-<br></br>
-\begin{equation}
-\alpha(i)=argmax{P_{i,j}:\ 1\leq j\leq {20}} \quad ,1\leq i\leq L
-\end{equation}
-
-<font size="4">where $\alpha(i)$ is the index for the largest element in row i  of PSSM, and the ith component in the consensus sequence equal to the $\alpha(i)$'th amino acid in the standard amino acid alphabet which the column names of PSSM are labeled by them. Now, using the following equation, the feature vector of length 20 is obtained:</font>
-<br></br>
-\begin{equation}
-CSAAC=\frac{n(j)}{L}\quad ,1\leq j\leq{20}
-\end{equation}
-<font size="4"> Here $n(j)$ shows the number of j-th amino acid occurrences in the consensus sequence </font>
-<br></br>
-
-## CSCM
-
-<font size="4">This feature vector is obtained using the following equation from the consensus sequence:</font>
-
-\begin{equation}
-CSCM=\frac{\sum_{j=1}^{n_i}n_{i,j}}{L(L-1)}\quad ,1\leq i\leq{20}\quad ,1\leq j\leq L
-\end{equation}
-<font size="4"> Here $n(i)$ shows the number of i-th amino acid occurrences in the consensus sequence and $n_{i,j}$ indicates the j-th position of the i-th amino acid in the consensus sequence.</font>
-
-## Segmented PsePSSM features
-
-<font size="4">Here the PSSM is divided into n segments, which corresponds to dividing the initial protein sequence into n segments,  if n = 2:</font>
-
-\begin{equation}
-L_1=round(L/2) \quad , L_2=L-L_1
-\end{equation}
-
-<font size="4">Where L represents the length of the initial protein and indexed L's indicate the length of the first and second segments, respectively. Now, using the following equations, the feature vector components of length 200 are obtained</font>
-
-\begin{equation}
-\alpha_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=1}^{L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
-\frac{1}{{L_1}-\lambda}\sum_{i=1}^{{L_1}-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2,3,4\end{array}\right.
-\end{equation}
-\begin{equation}
-\beta_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L-L_1}\sum_{i=L_1+1}^{L}P_{i,j} & j=1,2,...,20,\lambda=0 \\
-\frac{1}{L-L_1-\lambda}\sum_{i=L_1+1}^{L-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2,3,4\end{array}\right.
-\end{equation}
-<font size="4">And if n = 3 then we have:</font>
-
-\begin{equation}
-L_1=round(L/3) \quad , L_2=2L_1 \quad ,L_3=L-2L_1
-\end{equation}
-
-<font size="4">Therefore, using the following equations, the  components of a feature vector with length 180 are obtained as follows:</font>
-
-\begin{equation}
-\theta_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=1}^{L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
-\frac{1}{L_1-\lambda}\sum_{i=1}^{L_1-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.
-\end{equation}
-
-
-\begin{equation}
-\mu_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=L_1+1}^{2L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
-\frac{1}{L_1-\lambda}\sum_{i=L_1+1}^{2L_1-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.
-\end{equation}
-
-
-
-\begin{equation}
-v_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L-2L_1}\sum_{i=2L_1+1}^{L}P_{i,j} & j=1,2,...,20,\lambda=0 \\
-\frac{1}{L-2L_1-\lambda}\sum_{i=2L_1+1}^{L-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.
-\end{equation}
-
-<font size="4">In total, using the previous feature vector, a feature vector of length 380 is obtained for this group.</font>
-
-<br></br>
-
-## Segmented ACTPSSM features
-<font size="4">In this group, using the previous equations and the following equations, the feature vector of length 280 could be obtained. when n=2:</font>
-
-\begin{equation}
-AC1_j^{lg}=\frac{1}{L_1-lg}\sum_{i=1}^{L_1-lg}(P_{i,j}-\alpha_j^0)(P_{i+lg,j}-\alpha_j^0)\\ 
-AC2_j^{lg}=\frac{1}{L-L_1-lg}\sum_{i=L_1+1}^{L-lg}(P_{i,j}-\beta_j^0)(P_{i+lg,j}-\beta_j^0)\\
-j=1,2,...,20,lg=1,2,3,4
-\end{equation}
-
-<font size="4">when n=3:</font>
-
-\begin{equation}
-AC1_j^{lg}=\frac{1}{L_1-lg}\sum_{i=1}^{L_1-lg}(P_{i,j}-\theta_j^0)(P_{i+lg,j}-\theta_j^0)\\ 
-AC2_j^{lg}=\frac{1}{L_1-lg}\sum_{i=L_1+1}^{2L_1-lg}(P_{i,j}-\mu_j^0)(P_{i+lg,j}-\mu_j^0)\\
-AC3_j^{lg}=\frac{1}{L-2L_1-lg}\sum_{i=2L_1+1}^{L-lg}(P_{i,j}-v_j^0)(P_{i+lg,j}-v_j^0)\\
-j=1,2,...,20,lg=1,2
-\end{equation}
-
-<br></br>
-<font size="4">If we connect all these feature vectors together, we will get a feature vector with a length of 700, which is reduced by PCA method and is used as input for the support vector machine classifier [@liang2015prediction].</font>
-<br></br>
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- A<-CS_PSe_PSSM(system.file("extdata", "C7GSI6.txt.pssm", package="PSSMCOOL"),"total")
-head(A, n = 50)
-```
-<br></br>
-
-# D-FPSSM/S-FPSSM
-
-<font size="4">If we sum the numbers of each column in the PSSM, we get a feature vector of length 20 as follows:</font>
-<br></br>
-\begin{equation}
-D=(d_1,d_2,...,d_{20})
-\end{equation}
-
-<font size="4">If we remove the negative elements somehow of the PSSM and call the resulting new matrix FPSSM and then calculate this feature vector for FPSSM, the components of this vector will depend on the length of the original protein, so to eliminate this dependency, we normalize the components of this vector using the following equation:</font>
-
-\begin{equation}
-d_i=\frac{d_i-min}{max\times L}
-\end{equation}
-
-<font size="4">Where, min and max represent the smallest and largest values of the previous vector components, respectively, and L represents the length of the original protein. The second feature vector with length 400 is obtained as follows:</font>
-
-\begin{equation}
-S=(s_1^{(1)},s_2^{(1)},...,s_{20}^{(1)},s_1^{(2)},s_2^{(2)},...,s_{20}^{(2)},...,s_1^{(20)},s_2^{(20)},...,s_{20}^{(20)})
-\end{equation}
-<br></br>
-<font size="4">If we name the columns of the FPSSM from $a_1$ to $a_{20}$ in the order from left to right, 
-then $S_j^{(i)}$ is equal to the sum of those members in the j-th column in the FPSSM whose corresponding row amino acid is equal to $a_i$. Figure 9 schematically shows these steps [@zahiri2013ppievo]:</font>
-<br></br>
-
-```{r fpssm,echo=FALSE,fig.cap="Figure 9: process of making FPSSM and extracting corresponding feature vectors",out.width = '70%'}
-knitr::include_graphics("figures/s-fpssm.jpg")
-```
-
-<br></br>
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- q<-FPSSM(system.file("extdata","C7GQS7.txt.pssm",package="PSSMCOOL"),20)
-head(q, n = 50)
-```
-<br></br>
+![](vignettes/figures/screens/df-pssm1.JPG)
+![](vignettes/figures/screens/df-pssm2.JPG)
 
 # SCSH2
 
 <font size="4"> To generate this feature vector, the consensus sequence corresponding to the protein sequence is extracted using the PSSM. Then, by placing these two sequences next to each other, a matrix with dimensions of 2 * L will be created. In the next step, each component in the upper row of this matrix is connected to two components in the lower row of this matrix, and thus a graph similar to a bipartite graph could be created.
-Now in this graph, each path of length 2 specifies a 3-mer and each path of length 1 denotes a 2-mer corresponding to these two sequences. Now if we consider a table consisting of two rows and 8000 columns so that the first row contains all possible 3-mers of 20 amino acids, then for every 3-mer obtained from this graph, we put number 1 below the corresponding cell With that 3-mer in the aforementioned table and 0 in other cells. so This gives us a vector of length 8000. For the 2-mers obtained from this graph, a vector of length 400 is obtained in a similar way. figures 10, 11 show these processes [@zahiri2014locfuse]. </font>
-<br></br>
-<br></br>
-
-
-```{r scsh2,echo=FALSE,fig.cap="Figure 10: process of extracting scsh2 feature vector",out.width = '70%'}
-knitr::include_graphics("figures/SCSH2.jpg")
-```
-
-<br></br>
+Now in this graph, each path of length 2 specifies a 3-mer and each path of length 1 denotes a 2-mer corresponding to these two sequences. Now if we consider a table consisting of two rows and 8000 columns so that the first row contains all possible 3-mers of 20 amino acids, then for every 3-mer obtained from this graph, we put number 1 below the corresponding cell With that 3-mer in the aforementioned table and 0 in other cells. so This gives us a vector of length 8000. For the 2-mers obtained from this graph, a vector of length 400 is obtained in a similar way. figures 10, 11 show these processes. </font>
 <br></br>
 
-```{r scshtable,echo=FALSE,fig.cap="Figure 11: tables of all 2-mers and all 3-mers",out.width = '70%'}
-knitr::include_graphics("D:/Edit_thesis/thesis_pics/scshtable.jpg")
-```
+![](vignettes/figures/screens/scsh1.JPG)
+![](vignettes/figures/screens/scsh2.JPG)
 
-<br></br>
-<br></br>
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- zz<- scsh2(system.file("extdata","C7GRQ3.txt.pssm",package="PSSMCOOL"),2)
-head(zz, n = 200)
-```
-<br></br>
-
-# RPSSM
-
-<font size="4">If we represent the PSSM as follows:</font>
-
-\begin{equation}
-D=(P_A,P_R,P_N,P_D,P_C,P_Q,P_E,P_G,P_H,P_I,P_L,P_K,P_M,P_F,P_P,P_S,P_T,P_W,P_Y,P_V)
-\end{equation}
-
-<font size="4">The indices will show the standard 20 amino acids. If we assume that our primary protein has length L, each of the above columns is as follows:</font>
-
-\begin{equation}
-P_A=(P_{1,A},P_{2,A},...,P_{L,A})^T
-\end{equation}
-
-<br></br>
-<font size="4">Now, using the following equations, we merge the columns of the PSSM and obtain a matrix with dimensions $L\times 10$:</font>
-
-<br></br>
-
-
-\begin{equation}
-P_1=\frac{P_F+P_Y+P_W}{3},P_2=\frac{P_M+P_L}{2}P_3=\frac{P_I+P_V}{2}\\
-P_4=\frac{P_A+P_T+P_S}{2},P_5=\frac{P_N+P_H}{2},P_6=\frac{P_Q+P_E+P_D}{3}\\
-P_7=\frac{P_R+P_K}{2},P_8=P_C,P_9=P_G,P_{10}=P_P
-\end{equation}
-
-<br></br>
-
-\begin{equation}
-RD=\begin{pmatrix}
--&1&2&3&4&5&6&7&8&9&10\\
-a_1&p_{1,1}&p_{1,2}&p_{1,3}&p_{1,4}&p_{1,5}&p_{1,6}&p_{1,7}&p_{1,8}&p_{1,9}&p_{1,10}\\
-a_2&p_{2,1}&p_{2,2}&p_{2,3}&p_{2,4}&p_{2,5}&p_{2,6}&p_{2,7}&p_{2,8}&p_{2,9}&p_{2,10}\\
-\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
-a_L&p_{L,1}&p_{L,2}&p_{L,3}&p_{L,4}&p_{L,5}&p_{L,6}&p_{L,7}&p_{L,8}&p_{L,9}&p_{L,10}
-\end{pmatrix}
-\end{equation}
-
-<br></br>
-
-<font size="4">Now using this new matrix we get a feature vector of length 10 as follows: </font>
-
-\begin{equation}
-D_s=\frac{1}{L}\sum_{i=1}^L (p_{i,s}-\overline p_s)^2
-\end{equation}
-
-<font size="4"> where </font>
-
-\begin{equation}
-\overline p_s=\frac{1}{L}\sum_{i=1}^L p_{i,s} \quad ,s=1,2,...,10,\ i=1,2,...,L \ ,p_{i,s} \in RD
-\end{equation}
-
-<font size="4"> now using following equations; will create a feature vector of length 100 and by combining the feature vector of length 10 mentioned previously, the final feature vector of length 110 will be created [@ding2014protein].</font>
-
-\begin{equation}
-\begin{aligned}
-x_{i,i+1}&=(p_{i,s}-\frac{p_{i,s}+p_{i+1,t}}{2})^2+(p_{i+1,t}-\frac{p_{i,s}+p_{i+1,t}}{2})^2\\
-&=\frac{(p_{i,s}-p_{i+1,t})^2}{2}\quad i=1,2,...,L-1 \quad ,s,t=1,2,...,10 
-\end{aligned}
-\end{equation}
-
-<br></br>
-
-\begin{equation}
-\begin{aligned}
-D_{s,t}&=\frac{1}{L-1}\sum_{i=1}^{L-1}x_{i,i+1} \\
-&=\frac{1}{L-1}\sum_{i=1}^{L-1}[(p_{i,s}-\frac{p_{i,s}+p_{i+1,t}}{2})^2+(p_{i+1,t}-\frac{p_{i,s}+p_{i+1,t}}{2})^2] \\
-&=\frac{1}{L-1}\sum_{i=1}^{L-1}\frac{(p_{i,s}-p_{i+1,t})^2}{2} \quad ,s,t=1,2,...,10
-\end{aligned}
-\end{equation}
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- w<-rpssm(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
-head(w, n = 50)
-```
-<br></br>
+![](vignettes/figures/screens/rpssm1.JPG)
+![](vignettes/figures/screens/rpssm2.JPG)
 
 # CC-PSSM
 <font size="4">This feature, which is similar to the PSSM-AC feature, stands for cross-covariance transformation. for column $j_1$, Calculates the average of this column as shown in Figure 12, and then subtract the result from the number on the i-th row in this column. Similarly, the feature calculates the average for the column $j_2$ and then subtracts the resulting number from the value on row i + g of this column and finally multiplies them. By changing the variable i from 1 to L-g, it calculates the sum of these, because the variable $j_1$ changes between 1 and 20 and the variable $j_2$ changes in the same interval (1,20) except for the number selected for the variable $j_1$, eventually feature vector of length 380 will be obtained [@dong2009new]. </font>
