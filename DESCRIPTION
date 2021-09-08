@@ -1,0 +1,43 @@
+Package: PSSMCOOL
+Type: Package
+Title: Features Extracted from Position Specific Scoring Matrix (PSSM)
+Version: 0.2.2
+Imports: utils,
+         gtools,
+         infotheo,
+         phonTools,
+         dtt
+Authors@R: c(
+    person("Javad", "zahiri", email = "zahiri@modares.ac.ir", role = "aut"),
+    person("Alireza", "mohammadi", email = "alireza691111@gmail.com", role = c("aut","cre")))
+Maintainer: Alireza mohammadi <alireza691111@gmail.com>
+Depends: R (>= 3.1.0)
+Description: Returns almost all features that has been extracted from Position Specific 
+             Scoring Matrix (PSSM) so far, which is a matrix of L rows (L is protein length) 
+             and 20 columns produced by 'PSI-BLAST' which is a program to produce
+             PSSM Matrix from multiple sequence alignment of proteins
+             see <https://www.ncbi.nlm.nih.gov/books/NBK2590/> for mor details. some 
+             of these features are described in Zahiri, J., et al.(2013)
+             <DOI:10.1016/j.ygeno.2013.05.006>,
+             Saini, H., et al.(2016)
+             <DOI:10.17706/jsw.11.8.756-767>,
+             Ding, S., et al.(2014)
+             <DOI:10.1016/j.biochi.2013.09.013>,
+             Cheng, C.W., et al.(2008)
+             <DOI:10.1186/1471-2105-9-S12-S6>,
+             Juan, E.Y., et al.(2009)
+             <DOI:10.1109/CISIS.2009.194>. 
+License: GPL-3
+URL: https://github.com/Alireza9651501005/PSSMCOOL
+BugReports: https://github.com/Alireza9651501005/PSSMCOOL/issues    
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat,
+    spelling,
+    waveslim,
+    knitr, 
+    rmarkdown
+Language: en-US
+VignetteBuilder: knitr
