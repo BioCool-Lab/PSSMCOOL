@@ -90,7 +90,7 @@ y_{i,j}=\frac{1}{(L-1)}\sum_{k=1}^{L-1}S_{k,i}S_{k+1,j}, \\(1\leq{i,j}\leq{20})
 \end{equation}
 
 
-<font size="4">In the above relation,$S_{i,j}$'s,are the PSSM elements and $y_{i,j}$'s are the 20x20 matrix elements, which by placing the rows of this matrix next to each other,DPC-PSSM feature vector of length 400 is obtained.</font>
+<font size="4">In the above equation,$S_{i,j}$'s,are the PSSM elements and $y_{i,j}$'s are the 20x20 matrix elements, which by placing the rows of this matrix next to each other,DPC-PSSM feature vector of length 400 is obtained.</font>
 <br></br>
 
 <font size="4"> Usage of this feature in PSSMCOOL package:</font>

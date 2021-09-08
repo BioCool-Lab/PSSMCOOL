@@ -42,135 +42,59 @@ library(PSSMCOOL)
 <br></br>
 ![](vignettes/figures/pssm_ac.jpg)
 <br></br>
-<pre>         Figure 2: process of extracting PSSM-AC feature vector from PSSM Matrix </pre>
+<pre>                   Figure 2: process of extracting PSSM-AC feature vector from PSSM Matrix </pre>
 
 ![](vignettes/figures/screens/pssm_ac.JPG)
 
 # DPC-PSSM
-<font size="4">This feature stands for dipeptide composition, which multiplies the values that are located in two consecutive rows and two different columns. Having calculated these values for different rows and columns, they are summed. Next, for both columns, the sum is divided by L-1. Since the result depends on two different columns, eventually a feature vector of length 400, according to Figure 3 and following equation ,will be obtained [@liu2010prediction].</font>
+<font size="4">This feature stands for dipeptide composition, which multiplies the values that are located in two consecutive rows and two different columns. Having calculated these values for different rows and columns, they are summed. Next, for both columns, the sum is divided by L-1. Since the result depends on two different columns, eventually a feature vector of length 400, according to Figure 3 and following equation ,will be obtained.</font>
 <br></br>
 
-```{r dpc-pssm,echo=FALSE,fig.cap="Figure 3: process of extracting DPC-PSSM feature vector from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/dpc-pssm.jpg")
-```
+![](vignettes/figures/dpc-pssm.jpg)
+<pre>                   Figure 3: process of extracting DPC-PSSM feature vector from PSSM Matrix </pre>
 <br></br>
 
-\begin{equation}
-y_{i,j}=\frac{1}{(L-1)}\sum_{k=1}^{L-1}S_{k,i}S_{k+1,j}, \\(1\leq{i,j}\leq{20})
-\end{equation}
+![](vignettes/figures/screens/dpc_pssm.JPG)
 
-
-<font size="4">In the above relation,$S_{i,j}$'s,are the PSSM elements and $y_{i,j}$'s are the 20x20 matrix elements, which by placing the rows of this matrix next to each other,DPC-PSSM feature vector of length 400 is obtained.</font>
-<br></br>
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- ss<-DPC_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
-head(ss, n = 50)
-```
-<br></br>
 
 # Trigram-PSSM
-<font size="4">This feature vector is of length 8000, which is extracted from the PSSM. If we multiply elements available in three consecutive rows and three different columns of the PSSM by each other, and apply this to all rows (all three consecutive rows) and then sum these numbers, eventually one of the elements of feature vector with length 8000 corresponding to the three selected columns will be obtained. Because we have 20 different columns, The final feature vector will be of length 8000 = 20 * 20 * 20. Figure 4: shows these steps. For example, in this figure for three marked rows and columns, the numbers obtained from the intersection of these rows and columns marked with a blue dotted circle around them, are multiplied to each other [@paliwal2014tri]. </font>
+<font size="4">This feature vector is of length 8000, which is extracted from the PSSM. If we multiply elements available in three consecutive rows and three different columns of the PSSM by each other, and apply this to all rows (all three consecutive rows) and then sum these numbers, eventually one of the elements of feature vector with length 8000 corresponding to the three selected columns will be obtained. Because we have 20 different columns, The final feature vector will be of length 8000 = 20 * 20 * 20. Figure 4: shows these steps. For example, in this figure for three marked rows and columns, the numbers obtained from the intersection of these rows and columns marked with a blue dotted circle around them, are multiplied to each other. </font>
 
-```{r trigram,echo=FALSE,fig.cap="Figure 4: process of extracting trigram-PSSM feature vector from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/trigram.jpg")
-```
+![](vignettes/figures/trigram.jpg)
+
+<pre>                   Figure 4: process of extracting trigram-PSSM feature vector from PSSM </pre>
 <br></br>
 
-\begin{equation}
-T_{m,n,r}=\sum_{i=1}^{L-2}P_{i,m}P_{i+1,n}P_{i+2,r}
-\end{equation}
-
-<br></br>
-
-<font size="4"> Usage of this feature in PSSMCOOL package:</font>
-
-```{r}
-as<-trigrame_pssm(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GSI6.txt.pssm"))
-head(as, n = 50)
-```
+![](vignettes/figures/screens/trigram.JPG)
 <br></br>
 
 # Pse-PSSM
-<font size="4"> The length of this feature vector is 320. The first 20 numbers of this feature vector are the mean of 20 columns in PSSM, and the next values for each column are the mean squares of the difference between the elements of row i and i + lag in this column. Because the lag value varies between 1 and 15, the final feature vector will have a length of 320. Figure 5: and following equation shows the process of this function and the corresponding mathematical relationship, respectively [@yu2013learning].</font>
+<font size="4"> The length of this feature vector is 320. The first 20 numbers of this feature vector are the mean of 20 columns in PSSM, and the next values for each column are the mean squares of the difference between the elements of row i and i + lag in this column. Because the lag value varies between 1 and 15, the final feature vector will have a length of 320. Figure 5: and following equation shows the process of this function and the corresponding mathematical equation, respectively.</font>
 
-```{r pse-pssm,echo=FALSE,fig.cap="Figure 5: process of extracting Pse-PSSM feature vector from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/pse-pssm.jpg")
-```
+![](vignettes/figures/pse-pssm.jpg)
+<pre>                  Figure 5: process of extracting Pse-PSSM feature vector from PSSM </pre>
 <br></br>
 
-\begin{equation}
-p(k)=\frac{1}{L-lag}\sum_{i=1}^{L-lag}(p_{i,j}-p_{i+lag,j})^2 \\j=1,2,...,20,lag=1,2,...,15\\k=20+j+20(lag-1)
-\end{equation}
-
-<br></br>
-
-<font size="4"> usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- v<-pse_pssm(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
-head(v, n = 50)
-```
-<br></br>
+![](vignettes/figures/screens/pse_pssm.JPG)
 
 # k-Separated-bigram-PSSM
-<font size="4"> This feature is almost identical to the DPC feature, and in fact, the DPC feature is part of this feature (for k = 1) and for two different columns, it considers rows that have distance k [@saini2016protein].</font>
+<font size="4"> This feature is almost identical to the DPC feature, and in fact, the DPC feature is part of this feature (for k = 1) and for two different columns, it considers rows that have distance k.</font>
 
-```{r k-separated,echo=FALSE,fig.cap="Figure 6: process of extracting K-separated-bigam-PSSM feature vector from PSSM",out.width = '70%'}
-knitr::include_graphics("figures/k-separated.jpg")
-```
+![](vignettes/figures/k-separated.jpg)
+<pre>                  Figure 5: process of extracting Pse-PSSM feature vector from PSSM </pre>
 <br></br>
 
-\begin{equation}
-T_{m,n}(k)=\sum_{i=1}^{L-k}p_{i,m}p_{i+k,n}\quad ,(1\leq{m,n}\leq{20})
-\end{equation}
+![](vignettes/figures/screens/k-separated.JPG)
 
-<br></br>
-<font size="4"> usage of this feature in PSSMCOOL package:</font>
-
-```{r}
- w<-k_seperated_bigrame(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"),5)
-head(w, n = 50)
-```
-<br></br>
 
 # EDP-EEDP-MEDP
 <font size="4"> In this group of features, in order to use uniform dimensions to show proteins of different lengths, in the first step, the average evolutionary score between adjacent residues is calculated using the following equations:</font>
 
-\begin{equation}
-Aver_1=(p_{i-1,k}+p_{i,s})/2 \\ Aver_2=(p_{i,s}+p_{i+1,t})/2 \\ i=1,2,...,L\quad and \quad k,s,t=1,2,...,20
-\end{equation}
+![](vignettes/figures/screens/edp.JPG)
+![](vignettes/figures/EEDP.jpg)
+<pre>                  Figure 7: process of extracting EDP-EEDP-MEDP feature vectors from PSSM </pre>
+<br></br>
 
-<font size="4">Where L is equal to the length of the protein, $Aver_1$ is the mean score of positions i and i-1, and $Aver_2$ is the mean score of positions i and i+1. The evolutionary difference formula (EDF) is then defined as follows:</font>
-
-\begin{equation}
-EDF:x_{i-1,i+1}=(Aver_1-Aver_2)^2
-\end{equation}
-
-<font size="4"> $x_{i-1,i+1}$ represents the mean of evolutionary difference between the residues of a given protein sequence. According to EDF, a given protein can be expressed by a 20 x 20 matrix called ED-PSSM, which is defined by the  equations</font>
-
-\begin{equation}
-ED-PSSM=(e_1,e_2,...,e_{20})\quad where \quad e_t=(e_{1,t},e_{2,t},...,e_{20,t})^T \\ 
-e_{k,t}=\sum_{i=2}^{L-1}x_{i-1,i+1}/L-2 \quad , k,t=1,2,..,20
-\end{equation}
-
-<font size="4"> Using this ED-PSSM, the three features EDP, EEDP, and MEDP are defined by the equations
-following equation, EDP has a length of 20, EEDP has a length of 400, and the MEDP feature is obtained by merging these two feature vectors [@zhang2014predict].</font>
-
-\begin{equation}
-EDP=[\psi_1,\psi_2,...,\psi_{20}]^T \quad where \quad \psi_t=\sum_{k=1}^{20}e_{k,t}/20 \quad ,t=1,2,...,20 \\
-EEDP=[\psi_{21},\psi_{22},...,\psi_{420}]^T \quad where \quad \psi_u=e_{k,t} \quad ,u=21,22,...,420 \\
-MEDP=[\psi_1,\psi_2,...,\psi_{420}]^T
-\end{equation}
-
-<font size="4"> Figure 7: also shows the process of this work. It is noteworthy that in the following equation the value of $p_{i,s}$ is removed during the subtraction of $Aver_1$ and $Aver_2$, and therefore this value is not shown in Figure 7.</font>
-
-\begin{equation}
-Aver_1=(p_{i-1,k}+p_{i,s})/2 \\
-Aver_2=(p_{i,s}+p_{i+1,t})/2
-\end{equation}
 
 ```{r eedp,echo=FALSE,fig.cap="Figure 7: process of extracting EDP-EEDP-MEDP feature vectors from PSSM",out.width = '70%'}
 knitr::include_graphics("figures/EEDP.jpg")
