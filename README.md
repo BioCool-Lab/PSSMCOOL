@@ -20,7 +20,7 @@ from several articles. each function in this package corresponds to one feature 
 
 <font size="4"> for issues about this package :</font>
 
-[https://github.com/BioCool-Lab/R-PSSM/issues](https://github.com/BioCool-Lab/R-PSSM/issues)
+[https://github.com/BioCool-Lab/R-PSSM/issues](https://github.com/BioCool-Lab/PSSMCOOL/issues)
 
 <br></br>
 ![](vignettes/figures/feature_table.jpg)
