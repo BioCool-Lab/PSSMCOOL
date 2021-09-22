@@ -3,7 +3,7 @@
 This package includs all features that has been extracted from Position-Specific Scoring Matrix (PSSM) in POSSUM website: http://possum.erc.monash.edu/ and some of other features
 from several articles. each function in this package corresponds to one feature that has extracted from PSSM Matrix.
 
-###### **Install from GitHub :  devtools::install_github("Alireza9651501005/PSSMCOOL")**
+###### **Install from GitHub :  devtools::install_github("BioCool-Lab/PSSMCOOL")**
 
 
 ## 1 Preface
@@ -14,7 +14,7 @@ from several articles. each function in this package corresponds to one feature 
 
 <font size="4"> PSSMCOOL Package is currently available on CRAN website:</font>
 
-[https://cran.r-project.org/web/packages/PSSMCOOL/index.html](https://cran.r-project.org/web/packages/PSSMCOOL/index.html)
+[ https://CRAN.R-project.org/package=PSSMCOOL]( https://CRAN.R-project.org/package=PSSMCOOL)
 
 <br></br>
 
