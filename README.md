@@ -230,7 +230,7 @@ appending these vectors to each other final feature vector is obtained.</font>
 # Sample implementation
 
  ## install.packages('caret', dependencies = TRUE)
-library(caret)
+library(caret) <br></br>
  ##in this script I'm going to do classification using the data set prepared by Alireza
 setwd("F:\\article400\\javad2")
 bmp.R2.submission.data.df <- read.csv("DataSet2.csv")
