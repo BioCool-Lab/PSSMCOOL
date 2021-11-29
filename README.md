@@ -230,36 +230,36 @@ appending these vectors to each other final feature vector is obtained.</font>
 # Sample implementation
 
 #### install.packages('caret', dependencies = TRUE)
-library(caret) \
-####in this script I'm going to do classification using the data set prepared by Alireza
-setwd("F:\\article400\\javad2")\  
-bmp.R2.submission.data.df <- read.csv("DataSet2.csv")\  
-dim(bmp.R2.submission.data.df)#1730  102\ 
-View(bmp.R2.submission.data.df)\
+library(caret)\
+####in this script I'm going to do classification using the data set prepared by Alireza <br />
+setwd("F:\\article400\\javad2") <br />
+bmp.R2.submission.data.df <- read.csv("DataSet2.csv") <br />
+dim(bmp.R2.submission.data.df)#1730  102 <br />
+View(bmp.R2.submission.data.df) <br />
 ####Assigning the Uniprot IDs for each protein pairs to the row name
-rownames(bmp.R2.submission.data.df) <-\
-  bmp.R2.submission.data.df$interactions\
+rownames(bmp.R2.submission.data.df) <- <br />
+  bmp.R2.submission.data.df$interactions <br />
 ####Removing the Uniprot IDs 
-bmp.R2.submission.data.df <-\
-  bmp.R2.submission.data.df[,-1]\
-dim(bmp.R2.submission.data.df)#1730  101\
-table(bmp.R2.submission.data.df$class)\
+bmp.R2.submission.data.df <- <br />
+  bmp.R2.submission.data.df[,-1] <br />
+dim(bmp.R2.submission.data.df)#1730  101 <br />
+table(bmp.R2.submission.data.df$class) <br />
 ####Interaction Non-Interaction 
 #### 865             865 \
-bmp.R2.submission.data.df$class <-\
-  as.factor(bmp.R2.submission.data.df$class)\
+bmp.R2.submission.data.df$class <- <br />
+  as.factor(bmp.R2.submission.data.df$class) <br />
 
 ####setting.the.trainControl===========
-setting.the.trainControl.3 <- function() \
-{ \
+setting.the.trainControl.3 <- function()
+{ 
 ####setting the trainControl function parameter: repeated CV; downsampling; 
-  set.seed(100) \
-  fitControl <- trainControl(## 10-fold CV 
-    method = "cv", 
-    returnData = TRUE, 
-    classProbs = TRUE, 
-  ) \
-  return(fitControl) \
+  set.seed(100) <br />
+  fitControl <- trainControl(## 10-fold CV  <br />
+    method = "cv", <br />
+    returnData = TRUE, <br />
+    classProbs = TRUE, <br />
+  ) 
+  return(fitControl) <br />
   
 } 
 <br></br>
