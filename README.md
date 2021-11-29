@@ -291,6 +291,7 @@ print(cross.validation.bulit.model.C5.0Tree$results) \
 #### parameter  Accuracy     Kappa  AccuracySD    KappaSD
 #### 1      none 0.9965351 0.9930693 0.005582827 0.01116793
 
+<br />
 ####10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
 cross.validation.bulit.model.pls <- 
   train(class ~ ., data = bmp.R2.submission.data.df, 
