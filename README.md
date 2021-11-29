@@ -231,31 +231,32 @@ appending these vectors to each other final feature vector is obtained.</font>
 
 #### install.packages('caret', dependencies = TRUE)
 library(caret)\
-####in this script I'm going to do classification using the data set prepared by Alireza <br />
+#### in this script I'm going to do classification using the data set prepared by Alireza <br />
 setwd("F:\\article400\\javad2") <br />
 bmp.R2.submission.data.df <- read.csv("DataSet2.csv") <br />
 dim(bmp.R2.submission.data.df)#1730  102 <br />
 View(bmp.R2.submission.data.df) <br />
-####Assigning the Uniprot IDs for each protein pairs to the row name
+#### Assigning the Uniprot IDs for each protein pairs to the row name
 rownames(bmp.R2.submission.data.df) <- <br />
   bmp.R2.submission.data.df$interactions <br />
-####Removing the Uniprot IDs 
+#### Removing the Uniprot IDs 
 bmp.R2.submission.data.df <- <br />
   bmp.R2.submission.data.df[,-1] <br />
 dim(bmp.R2.submission.data.df)#1730  101 <br />
 table(bmp.R2.submission.data.df$class) <br />
 <br />
-####Interaction Non-Interaction 
+#### Interaction Non-Interaction 
+<br />
 #### 865             865
 <br />
 bmp.R2.submission.data.df$class <- <br />
   as.factor(bmp.R2.submission.data.df$class) <br />
 
-####setting.the.trainControl===========
+#### setting.the.trainControl===========
 setting.the.trainControl.3 <- function()
 { 
 <br />
-####setting the trainControl function parameter: repeated CV; downsampling; 
+#### setting the trainControl function parameter: repeated CV; downsampling; 
   set.seed(100) <br />
   fitControl <- trainControl(## 10-fold CV  <br />
     method = "cv", <br />
@@ -266,11 +267,11 @@ setting.the.trainControl.3 <- function()
   
 } 
 <br></br>
-####setting cross validation parameters
+#### setting cross validation parameters
 trainControl.for.PSSM <- setting.the.trainControl.3()
 <br />
 
-####10-fold cross-validation using "Bagged CART (treebag)" classifier=======
+#### 10-fold cross-validation using "Bagged CART (treebag)" classifier=======
 cross.validation.bulit.model.treebag <- 
   train(class ~ ., data = bmp.R2.submission.data.df, 
       method = "treebag", 
@@ -280,11 +281,12 @@ cross.validation.bulit.model.treebag <-
 print(cross.validation.bulit.model.treebag$results)
 <br />
 #### parameter Accuracy    Kappa  AccuracySD    KappaSD
+<br />
 #### 1      none 0.995947 0.991893 0.005486098 0.01097446
 <br />
 
 
-####10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier=======
+#### 10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier=======
 cross.validation.bulit.model.C5.0Tree <- 
   train(class ~ ., data = bmp.R2.submission.data.df, 
         method = "C5.0Tree", 
@@ -294,10 +296,11 @@ cross.validation.bulit.model.C5.0Tree <-
 <br />
 print(cross.validation.bulit.model.C5.0Tree$results)
 #### parameter  Accuracy     Kappa  AccuracySD    KappaSD
+<br />
 #### 1      none 0.9965351 0.9930693 0.005582827 0.01116793
 
 <br />
-####10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
+#### 10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
 cross.validation.bulit.model.pls <- 
   train(class ~ ., data = bmp.R2.submission.data.df, 
         method = "pls", 
@@ -306,8 +309,11 @@ cross.validation.bulit.model.pls <-
 <br />
 print(cross.validation.bulit.model.pls$results) <br />
 ###### ncomp  Accuracy       Kappa AccuracySD    KappaSD
+<br />
 ###### 1     1 0.5034885  0.01032276 0.01831448 0.03438894
+<br />
 ###### 2     2 0.4861705 -0.02718683 0.05446108 0.10915104
+<br />
 ###### 3     3 0.5427787  0.08574924 0.04465618 0.08864498
 
 
