@@ -276,6 +276,7 @@ cross.validation.bulit.model.treebag <-
 print(cross.validation.bulit.model.treebag$results) \
 #### parameter Accuracy    Kappa  AccuracySD    KappaSD
 #### 1      none 0.995947 0.991893 0.005486098 0.01097446
+<br />
 
 
 ####10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier=======
