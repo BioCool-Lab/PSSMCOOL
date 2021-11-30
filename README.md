@@ -285,7 +285,7 @@ print(cross.validation.bulit.model.treebag$results) <br />
 <br></br>
 
 #### #"parameter Accuracy    Kappa  AccuracySD    KappaSD"
-<br /
+<br />
 #### #"1      none 0.995947 0.991893 0.005486098 0.01097446"
 <br />
 
@@ -310,13 +310,20 @@ cross.validation.bulit.model.pls <- <br />
         verbose = FALSE) <br />
 <br />
 print(cross.validation.bulit.model.pls$results) <br />
+
 <br></br>
 ##### #"ncomp  Accuracy       Kappa AccuracySD    KappaSD"
+
 <br />
+
 ##### #"1     1 0.5034885  0.01032276 0.01831448 0.03438894"
+
 <br />
+
 ##### #"2     2 0.4861705 -0.02718683 0.05446108 0.10915104"
+
 <br />
+
 ##### #"3     3 0.5427787  0.08574924 0.04465618 0.08864498"
 
 
