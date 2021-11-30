@@ -245,17 +245,20 @@ table(bmp.R2.submission.data.df$class) <br />
 <br />
 #### #Interaction Non-Interaction 
 <br />
-#### #865             865
+#### #"865             865"
 <br />
 bmp.R2.submission.data.df$class <- <br />
   as.factor(bmp.R2.submission.data.df$class) <br />
 <br />
+
 #### #setting.the.trainControl===========
+
 <br />
 setting.the.trainControl.3 <- function() <br />
-{ <br />
-<br />
-#### #setting the trainControl function parameter: repeated CV; downsampling; 
+{ 
+
+<br></br>
+#### #setting the trainControl function parameter: repeated CV; downsampling; <br />
   set.seed(100) <br />
   fitControl <- trainControl(## 10-fold CV  <br />
     method = "cv", <br />
@@ -264,7 +267,7 @@ setting.the.trainControl.3 <- function() <br />
   ) 
   return(fitControl) <br />
   
-} <br />
+}
 <br></br>
 #### #setting cross validation parameters
 trainControl.for.PSSM <- setting.the.trainControl.3() <br />
@@ -278,12 +281,13 @@ cross.validation.bulit.model.treebag <- <br />
       verbose = FALSE) <br />
 
 print(cross.validation.bulit.model.treebag$results) <br />
-<br />
-#### #parameter Accuracy    Kappa  AccuracySD    KappaSD
-<br />
-#### #1      none 0.995947 0.991893 0.005486098 0.01097446
-<br />
 
+<br></br>
+
+#### #"parameter Accuracy    Kappa  AccuracySD    KappaSD"
+<br /
+#### #"1      none 0.995947 0.991893 0.005486098 0.01097446"
+<br />
 
 #### #10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier=======
 cross.validation.bulit.model.C5.0Tree <- <br />
@@ -291,15 +295,13 @@ cross.validation.bulit.model.C5.0Tree <- <br />
         method = "C5.0Tree", <br />
         trControl = trainControl.for.PSSM, <br />
         verbose = FALSE) <br />
-
 <br />
-print(cross.validation.bulit.model.C5.0Tree$results) 
+print(cross.validation.bulit.model.C5.0Tree$results) <br />
+<br></br>
+#### #"parameter  Accuracy     Kappa  AccuracySD    KappaSD"
 <br />
-#### #parameter  Accuracy     Kappa  AccuracySD    KappaSD
-<br />
-#### #1      none 0.9965351 0.9930693 0.005582827 0.01116793
-
-<br />
+#### #"1      none 0.9965351 0.9930693 0.005582827 0.01116793"
+<br></br>
 #### #10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
 cross.validation.bulit.model.pls <- <br />
   train(class ~ ., data = bmp.R2.submission.data.df, <br />
@@ -307,15 +309,15 @@ cross.validation.bulit.model.pls <- <br />
         trControl = trainControl.for.PSSM, <br />
         verbose = FALSE) <br />
 <br />
-print(cross.validation.bulit.model.pls$results) 
+print(cross.validation.bulit.model.pls$results) <br />
+<br></br>
+##### #"ncomp  Accuracy       Kappa AccuracySD    KappaSD"
 <br />
-##### #ncomp  Accuracy       Kappa AccuracySD    KappaSD
+##### #"1     1 0.5034885  0.01032276 0.01831448 0.03438894"
 <br />
-##### #1     1 0.5034885  0.01032276 0.01831448 0.03438894
+##### #"2     2 0.4861705 -0.02718683 0.05446108 0.10915104"
 <br />
-##### #2     2 0.4861705 -0.02718683 0.05446108 0.10915104
-<br />
-##### #3     3 0.5427787  0.08574924 0.04465618 0.08864498
+##### #"3     3 0.5427787  0.08574924 0.04465618 0.08864498"
 
 
 
