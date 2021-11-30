@@ -224,13 +224,11 @@ appending these vectors to each other final feature vector is obtained.</font>
 
 ![](vignettes/figures/screens/svd-pssm.JPG)
 
-<br></br>
-
 
 # Sample implementation
 
 #### install.packages('caret', dependencies = TRUE)
-library(caret)\
+library(caret) <br />
 #### in this script I'm going to do classification using the data set prepared by Alireza <br />
 setwd("F:\\article400\\javad2") <br />
 bmp.R2.submission.data.df <- read.csv("DataSet2.csv") <br />
@@ -251,10 +249,11 @@ table(bmp.R2.submission.data.df$class) <br />
 <br />
 bmp.R2.submission.data.df$class <- <br />
   as.factor(bmp.R2.submission.data.df$class) <br />
-
+<br />
 #### setting.the.trainControl===========
-setting.the.trainControl.3 <- function()
-{ 
+<br />
+setting.the.trainControl.3 <- function() <br />
+{ <br />
 <br />
 #### setting the trainControl function parameter: repeated CV; downsampling; 
   set.seed(100) <br />
@@ -265,20 +264,20 @@ setting.the.trainControl.3 <- function()
   ) 
   return(fitControl) <br />
   
-} 
+} <br />
 <br></br>
 #### setting cross validation parameters
-trainControl.for.PSSM <- setting.the.trainControl.3()
+trainControl.for.PSSM <- setting.the.trainControl.3() <br />
 <br />
 
 #### 10-fold cross-validation using "Bagged CART (treebag)" classifier=======
-cross.validation.bulit.model.treebag <- 
-  train(class ~ ., data = bmp.R2.submission.data.df, 
-      method = "treebag", 
-      trControl = trainControl.for.PSSM, 
-      verbose = FALSE)
+cross.validation.bulit.model.treebag <- <br />
+  train(class ~ ., data = bmp.R2.submission.data.df, <br />
+      method = "treebag", <br />
+      trControl = trainControl.for.PSSM, <br />
+      verbose = FALSE) <br />
 
-print(cross.validation.bulit.model.treebag$results)
+print(cross.validation.bulit.model.treebag$results) <br />
 <br />
 #### parameter Accuracy    Kappa  AccuracySD    KappaSD
 <br />
@@ -287,27 +286,28 @@ print(cross.validation.bulit.model.treebag$results)
 
 
 #### 10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier=======
-cross.validation.bulit.model.C5.0Tree <- 
-  train(class ~ ., data = bmp.R2.submission.data.df, 
-        method = "C5.0Tree", 
-        trControl = trainControl.for.PSSM, 
-        verbose = FALSE)
+cross.validation.bulit.model.C5.0Tree <- <br />
+  train(class ~ ., data = bmp.R2.submission.data.df, <br />
+        method = "C5.0Tree", <br />
+        trControl = trainControl.for.PSSM, <br />
+        verbose = FALSE) <br />
 
 <br />
-print(cross.validation.bulit.model.C5.0Tree$results)
+print(cross.validation.bulit.model.C5.0Tree$results) <br />
 #### parameter  Accuracy     Kappa  AccuracySD    KappaSD
 <br />
 #### 1      none 0.9965351 0.9930693 0.005582827 0.01116793
 
 <br />
 #### 10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
-cross.validation.bulit.model.pls <- 
-  train(class ~ ., data = bmp.R2.submission.data.df, 
-        method = "pls", 
-        trControl = trainControl.for.PSSM, 
-        verbose = FALSE)
+cross.validation.bulit.model.pls <- <br />
+  train(class ~ ., data = bmp.R2.submission.data.df, <br />
+        method = "pls", <br />
+        trControl = trainControl.for.PSSM, <br />
+        verbose = FALSE) <br />
 <br />
 print(cross.validation.bulit.model.pls$results) <br />
+
 ###### ncomp  Accuracy       Kappa AccuracySD    KappaSD
 <br />
 ###### 1     1 0.5034885  0.01032276 0.01831448 0.03438894
