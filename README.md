@@ -159,21 +159,229 @@ table into training and testing data and predict the desired disulfide bonds bet
 ![](vignettes/figures/screens/disulfid1.JPG)
 ![](vignettes/figures/screens/disulfid2.JPG)
 
-![](vignettes/figures/screens/dp-pssm1.JPG)
-![](vignettes/figures/screens/dp-pssm2.JPG)
+## 18 DP-PSSM
+<p>The extraction of this feature is obtained using the following equations from the PSSM:</p>
 
-![](vignettes/figures/screens/dfmca.JPG)
-![](vignettes/figures/screens/dfmca2.JPG)
-
-![](vignettes/figures/screens/grey-pssm.JPG)
-![](vignettes/figures/screens/grey-pssm2.JPG)
-
-![](vignettes/figures/screens/smoothed.JPG)
-![](vignettes/figures/screens/smoothed2.JPG)
-
-![](vignettes/figures/screens/kidera.JPG)
+![\begin{aligned}
+P_{DP-PSSM}^{\alpha}&=[T',G']=[p_1,p_2,...,p_{40+40\times{\alpha}}]\\
+T'&=[\bar{T}_1^P,\bar{T}_1^N,\bar{T}_2^P,\bar{T}_2^N,...,\bar{T}_{20}^P,\bar{T}_{20}^N]
+\end{aligned}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbegin%7Baligned%7D%20P_%7BDP-PSSM%7D%5E%7B%5Calpha%7D%26%3D%5BT%27%2CG%27%5D%3D%5Bp_1%2Cp_2%2C...%2Cp_%7B40&plus;40%5Ctimes%7B%5Calpha%7D%7D%5D%5C%5C%20T%27%26%3D%5B%5Cbar%7BT%7D_1%5EP%2C%5Cbar%7BT%7D_1%5EN%2C%5Cbar%7BT%7D_2%5EP%2C%5Cbar%7BT%7D_2%5EN%2C...%2C%5Cbar%7BT%7D_%7B20%7D%5EP%2C%5Cbar%7BT%7D_%7B20%7D%5EN%5D%20%5Cend%7Baligned%7D)
+<br></br>
+![\left\{\begin{array}{ll}\bar{T}_j^P=\frac{1}{NP_j}\sum T_{i,j} &  ,if \ T_{i,j}\geq 0\\ 
+\bar{T}_j^N=\frac{1}{NN_j}\sum T_{i,j} &  ,if \  T_{i,j}< 0
+\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cbar%7BT%7D_j%5EP%3D%5Cfrac%7B1%7D%7BNP_j%7D%5Csum%20T_%7Bi%2Cj%7D%20%26%20%2Cif%20%5C%20T_%7Bi%2Cj%7D%5Cgeq%200%5C%5C%20%5Cbar%7BT%7D_j%5EN%3D%5Cfrac%7B1%7D%7BNN_j%7D%5Csum%20T_%7Bi%2Cj%7D%20%26%20%2Cif%20%5C%20T_%7Bi%2Cj%7D%3C%200%20%5Cend%7Barray%7D%5Cright.)
+<br></br>
+![\begin{aligned}
+G'&=[G_1,G_2,...,G_{20}]\\
+G_j&=[\bar{\Delta}_{1,j}^P,\bar{\Delta}_{1,j}^N,\bar{\Delta}_{2,j}^P,\bar{\Delta}_{2,j}^N,...,\bar{\Delta}_{\alpha,j}^P,\bar{\Delta}_{\alpha,j}^N]
+\end{aligned}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbegin%7Baligned%7D%20G%27%26%3D%5BG_1%2CG_2%2C...%2CG_%7B20%7D%5D%5C%5C%20G_j%26%3D%5B%5Cbar%7B%5CDelta%7D_%7B1%2Cj%7D%5EP%2C%5Cbar%7B%5CDelta%7D_%7B1%2Cj%7D%5EN%2C%5Cbar%7B%5CDelta%7D_%7B2%2Cj%7D%5EP%2C%5Cbar%7B%5CDelta%7D_%7B2%2Cj%7D%5EN%2C...%2C%5Cbar%7B%5CDelta%7D_%7B%5Calpha%2Cj%7D%5EP%2C%5Cbar%7B%5CDelta%7D_%7B%5Calpha%2Cj%7D%5EN%5D%20%5Cend%7Baligned%7D)
+<br></br>
+![\left\{\begin{array}{ll}\bar{\Delta}_{k,j}^P=\frac{1}{NDP_j}\sum [T_{i,j}-T_{i+k,j}]^2 &  ,if \ T_{i,j}-T_{i+k,j}\geq 0\\ 
+\bar{\Delta}_{k,j}^N=\frac{-1}{NDN_j}\sum [T_{i,j}-T_{i+k,j}]^2 &  ,if \  T_{i,j}-T_{i+k,j}< 0
+\end{array}\right.\\
+0<k\leq{\alpha}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cbar%7B%5CDelta%7D_%7Bk%2Cj%7D%5EP%3D%5Cfrac%7B1%7D%7BNDP_j%7D%5Csum%20%5BT_%7Bi%2Cj%7D-T_%7Bi&plus;k%2Cj%7D%5D%5E2%20%26%20%2Cif%20%5C%20T_%7Bi%2Cj%7D-T_%7Bi&plus;k%2Cj%7D%5Cgeq%200%5C%5C%20%5Cbar%7B%5CDelta%7D_%7Bk%2Cj%7D%5EN%3D%5Cfrac%7B-1%7D%7BNDN_j%7D%5Csum%20%5BT_%7Bi%2Cj%7D-T_%7Bi&plus;k%2Cj%7D%5D%5E2%20%26%20%2Cif%20%5C%20T_%7Bi%2Cj%7D-T_%7Bi&plus;k%2Cj%7D%3C%200%20%5Cend%7Barray%7D%5Cright.%5C%5C%200%3Ck%5Cleq%7B%5Calpha%7D)
+<br></br>
+<p>In the above equations, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BT_%7Bi%2Cj%7D%7D"> represents the value on the i-th row and j-th column of the normalized PSSM, which is denoted by <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BM_T%7D">. This matrix is constructed from the PSSM using the following equations:</p>
 <br></br>
 
+![mean_i=\frac{1}{20}\sum_{i=1}^{20}E_{i,k}\\
+STD_i=\sqrt{\frac{\sum_{u=1}^{20}[E_{i,u}-mean_i]^2}{20}}\\
+T_{i,j}=\frac{E_{i,j}-mean_i}{STD_i}](https://latex.codecogs.com/svg.latex?%5Clarge%20mean_i%3D%5Cfrac%7B1%7D%7B20%7D%5Csum_%7Bi%3D1%7D%5E%7B20%7DE_%7Bi%2Ck%7D%5C%5C%20STD_i%3D%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bu%3D1%7D%5E%7B20%7D%5BE_%7Bi%2Cu%7D-mean_i%5D%5E2%7D%7B20%7D%7D%5C%5C%20T_%7Bi%2Cj%7D%3D%5Cfrac%7BE_%7Bi%2Cj%7D-mean_i%7D%7BSTD_i%7D)
+
+<p>In above equations <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Coverline%7BT%7D_j%5EP%7D"> represents the mean of the positive values of <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5C%7BT_%7Bi%2Cj%7D%7Ci%3D1%2C2%2C...%2CL%5C%7D%7D"> and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Coverline%20T_j%5EN%7D"> represents the mean of the negative values of the above set, which in fact the above set represents the j-th column of the matrix <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BM_T%7D"> the expression <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BNP_j%7D"> indicates the number of positive values of set <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5C%7BT_%7Bi%2Cj%7D%7Ci%3D1%2C2%2C...%2CL%5C%7D%7D"> and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BNN_j%7D"> is related to the number of negative values of the mentioned set. It is clear that this feature vector arises from the connection of two vectors <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BG%27%7D">, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BT%27%7D">. According to the equations, it is clear that the length of the first feature vector is 40 and the length of the second feature vector is <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Calpha%5Ctimes%2040%7D">, which by selecting 2 in the used article, a feature vector of length 120 is created from the PSSM.</p>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ ss<-DP_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(ss, n = 50)
+```
+```
+##  [1]  1.0739 -0.4023  1.1132 -0.5915  0.9459 -0.5134  1.3519 -0.6148  2.1035
+## [10] -0.7794  1.1112 -0.5070  0.9216 -0.5843  1.3479 -0.5950  1.2737 -0.5028
+## [19]  1.1349 -0.6704  1.3017 -0.6891  1.1585 -0.5086  0.9554 -0.5457  1.4547
+## [28] -0.7166  1.5252 -0.6998  1.0084 -0.3219  0.6664 -0.4227  1.3648 -0.7855
+## [37]  1.0723 -0.6254  1.1957 -0.6171  1.7783 -1.7591  1.5965 -1.6100  1.1498
+## [46] -1.5052  1.4737 -1.5524  1.5066 -1.6937
+```
+
+## 19 DFMCA-PSSM
+<p>In this feature, each of the columns of the PSSM is considered as a non-static time series. Assuming that <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5C%7Bx_i%5C%7D">, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5C%7By_i%5C%7D"> for i=1,2,...,L represent two different columns of the PSSM, then two cumulative time series X,Y of these two columns are obtained according to the following equations:</p>
+
+![\left\{\begin{array}{ll}X_k=\sum_{i=1}^K x_i & k=1,2,...,L \\ 
+Y_k=\sum_{i=1}^k y_i & k=1,2,...,L 
+\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7DX_k%3D%5Csum_%7Bi%3D1%7D%5EK%20x_i%20%26%20k%3D1%2C2%2C...%2CL%20%5C%5C%20Y_k%3D%5Csum_%7Bi%3D1%7D%5Ek%20y_i%20%26%20k%3D1%2C2%2C...%2CL%20%5Cend%7Barray%7D%5Cright.)
+
+<p>Now, using these two series, two backward moving average are obtained according to the following equations:</p>
+
+![\left\{\begin{array}{ll}\tilde{X}_{k,s}=\frac{1}{s}\sum_{i=-(s-1)}^0 X_{(k-i)} \\ 
+\tilde{Y}_{k,s}=\frac{1}{s}\sum_{i=-(s-1)}^0 Y_{(k-i)} 
+\end{array}\right.\\
+1<s\leq L](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Ctilde%7BX%7D_%7Bk%2Cs%7D%3D%5Cfrac%7B1%7D%7Bs%7D%5Csum_%7Bi%3D-%28s-1%29%7D%5E0%20X_%7B%28k-i%29%7D%20%5C%5C%20%5Ctilde%7BY%7D_%7Bk%2Cs%7D%3D%5Cfrac%7B1%7D%7Bs%7D%5Csum_%7Bi%3D-%28s-1%29%7D%5E0%20Y_%7B%28k-i%29%7D%20%5Cend%7Barray%7D%5Cright.%5C%5C%201%3Cs%5Cleq%20L)
+
+<p>Finally, each element of the DFMCA feature vector is obtained using the above equations and the following formula:</p>
+
+![f_{DFMCA}^2(s)=\frac{1}{L-s+1}\sum_{k=1}^{L-s+1}(X_k-\tilde{X}_{k,s})(Y_k-\tilde{Y}_{k,s})](https://latex.codecogs.com/svg.latex?%5Clarge%20f_%7BDFMCA%7D%5E2%28s%29%3D%5Cfrac%7B1%7D%7BL-s&plus;1%7D%5Csum_%7Bk%3D1%7D%5E%7BL-s&plus;1%7D%28X_k-%5Ctilde%7BX%7D_%7Bk%2Cs%7D%29%28Y_k-%5Ctilde%7BY%7D_%7Bk%2Cs%7D%29)
+
+<p>According to the above equation, it is clear that each element of this feature vector is obtained by using two different columns of the PSSM, and since we have 20 different columns and the order of the columns does not matter, the length of the obtained feature vector will be equal to <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cbinom%7B20%7D%7B2%7D%3D%5Cfrac%7B20%5Ctimes%2019%7D%7B2%7D%3D190"> </p>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-DFMCA_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"),7)
+head(as, n = 50)
+```
+```
+##  [1] 1.5671 1.0027 1.3320 1.1677 0.5471 2.3738 1.3395 1.1099 1.2298 1.0010
+## [11] 1.1077 1.0803 0.9034 1.5549 0.8586 1.5949 0.8651 0.4748 0.5141 1.0397
+## [21] 1.0206 1.1935 1.0423 0.7185 1.5056 1.1396 1.0414 1.0555 0.9881 0.9916
+## [31] 1.0804 0.9890 1.1909 0.9159 1.4816 1.0687 0.6386 0.7624 1.0960 1.0048
+## [41] 0.8881 0.4023 1.2723 1.0321 0.7996 0.8973 0.5799 0.5536 0.9635 0.6525
+```
+
+## 20 grey_pssm_pseAAC
+
+<p>This function produces a feature vector of length 100. The first 20 components of this vector are the same as the normalized frequency of 20 standard amino acids in the protein. The second 20 components of this vector are the average of the 20 columns of the PSSM corresponding to the protein, and the grey system model method is used to define the next 60 components. If we show this feature vector with length 100 as follows:</p>
+
+![V=(\psi_1,\psi_2,...,\psi_{100})](https://latex.codecogs.com/svg.latex?%5Clarge%20V%3D%28%5Cpsi_1%2C%5Cpsi_2%2C...%2C%5Cpsi_%7B100%7D%29)
+
+<p> then the first 20 components are as follows:</p>
+
+![\psi_i=f_i \quad (i=1,2,...,20)](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cpsi_i%3Df_i%20%5Cquad%20%28i%3D1%2C2%2C...%2C20%29)
+
+<p>Where <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bf_i%7D"> is the normalized frequency of type i amino acids of the 20 standard amino acids in the protein chain. If we denote the entries of the PSSM by <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bp_%7Bi%2Cj%7D%7D">, then the next 20 components of this feature vector are obtained according to the following equation:</p>
+
+![\psi_{j+20}=\alpha_j \quad (j=1,2,...,20),\\
+\alpha_j=\frac{1}{L}\sum_{i=1}^L p_{i,j}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cpsi_%7Bj&plus;20%7D%3D%5Calpha_j%20%5Cquad%20%28j%3D1%2C2%2C...%2C20%29%2C%5C%5C%20%5Calpha_j%3D%5Cfrac%7B1%7D%7BL%7D%5Csum_%7Bi%3D1%7D%5EL%20p_%7Bi%2Cj%7D)
+
+<p> the next 60 components are obtained by following equations:</p>
+
+![\psi_{j+40}=\delta_j \quad (j=1,2,...,60)](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cpsi_%7Bj&plus;40%7D%3D%5Cdelta_j%20%5Cquad%20%28j%3D1%2C2%2C...%2C60%29)
+
+<p> in this equation <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Cdelta_j%7D">'s are obtained as follows:</p>
+
+![\left\{\begin{array}{ll} \delta_{3j-2}=f_ja_1^j\\
+\delta_{3j-1}=f_ja_2^j \quad (j=1,2,...,20) \\
+\delta_{3j}=f_jb^j
+\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%20%5Cdelta_%7B3j-2%7D%3Df_ja_1%5Ej%5C%5C%20%5Cdelta_%7B3j-1%7D%3Df_ja_2%5Ej%20%5Cquad%20%28j%3D1%2C2%2C...%2C20%29%20%5C%5C%20%5Cdelta_%7B3j%7D%3Df_jb%5Ej%20%5Cend%7Barray%7D%5Cright.)
+
+<p> where <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bf_j%7D">'s are as in above and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Ba_1%5Ej%7D">, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Ba_2%5Ej%7D">, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bb%5Ej%7D"> are obtained as follows:</p>
+
+![\begin{bmatrix}a_1^j\\a_2^j\\b^j\end{bmatrix}=(B_j^TB_j)^{-1}B_j^TU_j \quad (j=1,2,...,20)](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbegin%7Bbmatrix%7Da_1%5Ej%5C%5Ca_2%5Ej%5C%5Cb%5Ej%5Cend%7Bbmatrix%7D%3D%28B_j%5ETB_j%29%5E%7B-1%7DB_j%5ETU_j%20%5Cquad%20%28j%3D1%2C2%2C...%2C20%29)
+
+<p>where: </p>
+
+![B_j=\begin{bmatrix}
+-p_{2,j}&-(p_{1,j}+0.5p_{2,j})&1\\
+-p_{3,j}&-(\sum_{i=1}^2 p_{i,j}+0.5p_{3,j})&1\\
+\vdots&\vdots&\vdots\\
+-p_{L,j}&-(\sum_{i=1}^{L-1} p_{i,j}+0.5p_{L,j})&1
+\end{bmatrix}](https://latex.codecogs.com/svg.latex?%5Clarge%20B_j%3D%5Cbegin%7Bbmatrix%7D%20-p_%7B2%2Cj%7D%26-%28p_%7B1%2Cj%7D&plus;0.5p_%7B2%2Cj%7D%29%261%5C%5C%20-p_%7B3%2Cj%7D%26-%28%5Csum_%7Bi%3D1%7D%5E2%20p_%7Bi%2Cj%7D&plus;0.5p_%7B3%2Cj%7D%29%261%5C%5C%20%5Cvdots%26%5Cvdots%26%5Cvdots%5C%5C%20-p_%7BL%2Cj%7D%26-%28%5Csum_%7Bi%3D1%7D%5E%7BL-1%7D%20p_%7Bi%2Cj%7D&plus;0.5p_%7BL%2Cj%7D%29%261%20%5Cend%7Bbmatrix%7D)
+
+<p> and:</p>
+
+![U_j=\begin{bmatrix}
+p_{2,j}-p_{1,j}\\
+p_{3,j}-p_{2,j}\\
+\vdots\\
+p_{L,j}-p_{L-1,j}
+\end{bmatrix}](https://latex.codecogs.com/svg.latex?%5Clarge%20U_j%3D%5Cbegin%7Bbmatrix%7D%20p_%7B2%2Cj%7D-p_%7B1%2Cj%7D%5C%5C%20p_%7B3%2Cj%7D-p_%7B2%2Cj%7D%5C%5C%20%5Cvdots%5C%5C%20p_%7BL%2Cj%7D-p_%7BL-1%2Cj%7D%20%5Cend%7Bbmatrix%7D)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-grey_pssm_pseAAC(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(as, n = 50)
+```
+```
+##  [1]  0.0534  0.0229  0.0611  0.0687  0.0611  0.1069  0.0153  0.0534  0.0305
+## [10]  0.0382  0.0534  0.0840  0.0076  0.0763  0.0687  0.0611  0.0305  0.0153
+## [19]  0.0305  0.0611  0.3773  0.2965  0.3371  0.3049  0.1816  0.4356  0.3395
+## [28]  0.2866  0.3109  0.2576  0.2622  0.3150  0.2776  0.3187  0.2383  0.3846
+## [37]  0.2755  0.1791  0.2180  0.2808 -0.0485 -0.0001 -0.0207 -0.0220  0.0000
+## [46] -0.0051 -0.0432  0.0000 -0.0131 -0.0618
+```
+
+## 21 Smoothed_pssm 
+
+<p>This feature has been used to predict RNA binding sites in proteins, and therefore a specific feature vector is generated for each residue. To generate this feature vector, a matrix called smoothed_pssm is first created from the PSSM using a parameter ws called the smooth window size, which usually has a default value of 7 and can Change between 3, 5, 7, 9 and 11. The i-th row in the smoothed_PSSM is obtained by summing ws row vectors around the i-th row, which of course corresponds to the i-th row in the protein. If we show this problem with a mathematical equation, then we will have:</p>
+
+![V_{smoothed_i}=V_{i-\frac{(ws-1)}{2}}+...+V_i+...+V_{i+\frac{(ws-1)}{2}}](https://latex.codecogs.com/svg.latex?%5Clarge%20V_%7Bsmoothed_i%7D%3DV_%7Bi-%5Cfrac%7B%28ws-1%29%7D%7B2%7D%7D&plus;...&plus;V_i&plus;...&plus;V_%7Bi&plus;%5Cfrac%7B%28ws-1%29%7D%7B2%7D%7D)
+
+<p>In this regard, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BV_i%7D">'s represent the row vectors of the PSSM. To obtain the first and last rows of the smoothed_PSSM corresponding to the N-terminal and C-terminal of the protein, zero vectors are added to the beginning and end of the PSSM. The Figure 15 represents these processes schematically.</p>
+![](vignettes/figures/screens/smoothed.JPG)
+
+<p>Now, using another parameter w called the slider window size, which its default value is 11 and can change in the interval (3,41)(ste=2), for the resid <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Calpha_i%7D">, the feature vector obtained from the smoothed-PSSM will be in the form as follows:</p>
+
+![(V_{smoothed_{i-\frac{(w-1)}{2}}},...,V_{smoothed_i},...,V_{smoothed_{i+\frac{(w-1)}{2}}})](https://latex.codecogs.com/svg.latex?%5Clarge%20%28V_%7Bsmoothed_%7Bi-%5Cfrac%7B%28w-1%29%7D%7B2%7D%7D%7D%2C...%2CV_%7Bsmoothed_i%7D%2C...%2CV_%7Bsmoothed_%7Bi&plus;%5Cfrac%7B%28w-1%29%7D%7B2%7D%7D%7D%29)
+
+<p>Here, as in the previous case, if the residue in question is the first or last residue of the protein, number of <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%28%5Cfrac%7Bw-1%7D%7B2%7D%29%7D"> zero vectors are added to the beginning or end of the smoothed matrix to obtain the feature vector. Therefore, the parameter w will determine the length of the feature vector per residue. If its value is 11, the length of the obtained feature vector will be equal to 220 = 11 * 20. eventually, the feature vector values are normalized between -1 and 1.</p>
+
+#### Usage of this feature in PSSMCOOL package:
+
+```
+w<-smoothed_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"),7,11,c(2,3,8,9))
+head(w[,1:50], n = 50)
+```
+```
+##        1      2      3      4      5      6      7      8      9     10     11
+## 2 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 3 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 8 1.8638 2.8079 0.7699 0.3285 1.0823 2.6192 0.7699 0.5128 2.2446 3.1497 4.3768
+## 9 2.5949 3.0769 0.8891 0.3759 1.3512 2.8881 0.8891 0.7817 2.5135 3.6497 4.8768
+##       12     13     14     15     16     17     18     19    20     21     22
+## 2 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.000 0.0000 0.0000
+## 3 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.000 0.0000 0.0000
+## 8 2.1762 3.5374 2.4894 0.5613 2.9282 2.0073 2.7474 3.0000 1.926 2.5949 3.0769
+## 9 2.2954 3.8064 3.2204 1.0613 3.8808 2.7384 3.2474 3.1192 2.195 2.8164 3.0769
+##       23     24     25     26     27     28     29     30     31     32     33
+## 2 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 3 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 8 0.8891 0.3759 1.3512 2.8881 0.8891 0.7817 2.5135 3.6497 4.8768 2.2954 3.8064
+## 9 0.8891 0.3759 1.3512 2.8164 0.8891 0.7704 2.4841 4.1023 4.8768 2.2659 3.7591
+##       34     35     36     37     38     39     40     41     42     43     44
+## 2 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 3 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 8 3.2204 1.0613 3.8808 2.7384 3.2474 3.1192 2.1950 2.8164 3.0769 0.8891 0.3759
+## 9 3.2204 1.0907 3.9526 2.8881 3.9311 3.2689 2.8068 2.8164 2.8458 1.3512 0.3041
+##       45     46     47     48     49     50
+## 2 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 3 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+## 8 1.3512 2.8164 0.8891 0.7704 2.4841 4.1023
+## 9 1.2795 2.3638 0.6676 0.6987 1.6507 4.4831
+```
+
+## 22 Kiderafactor
+<font size="30">For producing this feature vector similar to the smoothed-PSSM feature, firstly PSSM is smoothed by appending zero vectors to its head and tail and a sliding window with odd size is utilized. Then this smoothed PSSM is condensed by the Kidera factors to produce feature vector for each residue.</font>
+#### Usage of this feature in PSSMCOOL package:
+```
+ w<-kiderafactor(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"),c(2,3,8,9))
+head(w[,1:50], n = 50)
+```
+```
+##        1    2     3      4    5      6     7      8      9     10     11    12
+## 2  0.000 0.00 0.000  0.000 0.00  0.000  0.00  0.000  0.000  0.000  0.000 0.000
+## 3  0.000 0.00 0.000  0.000 0.00  0.000  0.00  0.000  0.000  0.000  0.000 0.000
+## 8  0.000 0.00 0.000  0.000 0.00  0.000  0.00  0.000  0.000  0.000 -1.072 0.650
+## 9 -1.072 0.65 0.667 -0.199 0.44 -0.484 -0.03 -0.575 -0.617 -0.217 -1.120 0.953
+##      13     14    15     16     17     18     19     20     21    22    23
+## 2 0.000  0.000 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.000 0.000
+## 3 0.000  0.000 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.000 0.000
+## 8 0.667 -0.199 0.440 -0.484 -0.030 -0.575 -0.617 -0.217 -1.120 0.953 0.924
+## 9 0.924 -0.099 0.508 -0.433  0.103 -0.637 -0.305  0.152 -1.298 1.250 1.203
+##       24    25     26     27     28     29     30     31   32    33     34
+## 2  0.000 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.00 0.000  0.000
+## 3  0.000 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.00 0.000  0.000
+## 8 -0.099 0.508 -0.433  0.103 -0.637 -0.305  0.152 -1.298 1.25 1.203 -0.792
+## 9 -0.792 0.346 -0.760 -0.068 -0.546 -0.492 -0.017 -1.334 1.06 1.274 -1.052
+##      35     36     37     38     39     40     41    42    43     44    45
+## 2 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.000 0.000  0.000 0.000
+## 3 0.000  0.000  0.000  0.000  0.000  0.000  0.000 0.000 0.000  0.000 0.000
+## 8 0.346 -0.760 -0.068 -0.546 -0.492 -0.017 -1.334 1.060 1.274 -1.052 0.247
+## 9 0.247 -0.929 -0.177 -0.833 -0.541 -0.152 -1.399 1.138 1.512 -1.311 0.074
+##       46     47     48     49     50
+## 2  0.000  0.000  0.000  0.000  0.000
+## 3  0.000  0.000  0.000  0.000  0.000
+## 8 -0.929 -0.177 -0.833 -0.541 -0.152
+## 9 -0.997 -0.406 -0.859 -0.767 -0.260
+```
 ## 23 MBMGACPSSM
 <font size="4">In this feature three different autocorrelation descriptors based on PSSM are adopted, which include: normalized Moreau-Broto autocorrelation, Moran autocorrelation and Geary autocorrelation
 descriptors.Autocorrelation descriptor is a powerful statistical tool and defined based on the distribution of amino acid properties along the sequence, which measures the correlation between two
@@ -225,7 +433,6 @@ head(q, n = 50)
 ## [31] 0.8889 1.1667 1.0000 0.7778 0.7222 1.1667 1.0556 0.5556 0.8889 0.7778
 ## [41] 3.3889 2.2222 3.6667 3.6667 1.7778 2.8889 2.8333 3.7778 2.4444 2.0556
 ```
-<br></br>
 
 ## 26 PSSM-BLOCK
 <font size="4"> In this feature at first PSSM is divided to Blocks based on Number N which user imports.
@@ -274,8 +481,6 @@ head(ww, n = 50)
 ## [77]  68  75  77  68
 ```
 
-<br></br>
-
 ## 28 PSSM-SEG
 <font size="4"> This feature, similar to the previous feature, divides each column into four parts and calculates the values for each column. Then, using the following equations, it calculates the values of Segmented Auto Covariance Features. The final feature vector length will be of length 100.</font>
 
@@ -302,7 +507,6 @@ head(q, n = 50)
 ## [37]  0.0931  0.0559  0.0311  0.0555  0.1182  0.0769  0.0584  0.0769  0.0283
 ## [46]  0.0371  0.0175  0.0371  0.0287  0.0242
 ```
-<br></br>
 
 ## 29 SOMA-PSSM
 <font size="4"> This feature also considers each of the columns of the PSSM as a time series. If L represents the length of the protein, then the column j of the matrix can be thought of <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20y%28i%29%2C%20%5C%20i%3D1%2C2%2C...%2CL" style="width:120px;height:15px;"> as a time series. The SOMA algorithm is implemented in two steps using the following equations on the PSSM:
@@ -328,7 +532,6 @@ head(w, n = 50)
 ## [31] 0.6020 0.5920 0.4988 0.8121 0.4674 0.7992 0.4326 0.3434 0.3525 0.5541
 ## [41] 1.6475 1.1293 1.4382 1.2852 0.6546 2.4681 1.3966 1.2121 1.3366 1.1003
 ```
-<br></br>
 ## 30 SVD-PSSM
 <font size="4"> Singular value decomposition is a general-purpose matrix factorization approach
 that has many useful applications in signal processing and statistics. In this feature ![SVD](https://latex.codecogs.com/svg.latex?%5Cinline%20SVD) is
