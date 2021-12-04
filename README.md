@@ -221,12 +221,25 @@ appending these vectors to each other final feature vector is obtained.</font>
 
 ![](vignettes/figures/screens/soma-pssm.JPG)
 <br></br>
-
-![](vignettes/figures/screens/svd-pssm.JPG)
-
+# *SVD-PSSM*
+<font size="4"> Singular value decomposition is a general-purpose matrix factorization approach
+that has many useful applications in signal processing and statistics. In this feature ![SVD](https://latex.codecogs.com/svg.latex?%5Cinline%20SVD) is
+applied to a matrix representation of a protein aimed to reduce its dimensionality.
+Given an input matrix Mat with dimensions ![N*M \enspace SVD](https://latex.codecogs.com/svg.latex?%5Cinline%20N*M%20%5Censpace%20SVD) is used to calculate its factorization
+of the form: ![Mat=U\Sigma V](https://latex.codecogs.com/svg.latex?%5Cinline%20Mat%3DU%5CSigma%20V) where ![\Sigma](https://latex.codecogs.com/svg.latex?%5Cinline%20%5CSigma) is a diagonal matrix whose diagonal
+entries are known as the singular values of Mat. The resulting descriptor is the ordered set of singular values: ![SVD\in\mathcal{R}^L](https://latex.codecogs.com/svg.latex?%5Cinline%20SVD%5Cin%5Cmathcal%7BR%7D%5EL) where ![L=min(M,N)](https://latex.codecogs.com/svg.latex?%5Cinline%20L%3Dmin%28M%2CN%29). since the PSSM has 20 columns, the final feature vector would be of length 20 .</font>
+#### Usage of this feature in PSSMCOOL package:
+```
+ w<-SVD_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(w, n = 20)
+```
+```
+##  [1] 16.312  8.469  5.364  4.757  4.254  3.710  3.687  3.207  2.943  2.687
+## [11]  2.565  2.262  2.244  2.073  1.832  1.755  1.621  1.507  1.441  1.061
+```
 
 # useCase implementation in R
-####  # *Installing PSSMCOOL and loading it*
+#### # *Installing PSSMCOOL and loading it*
 ```
 # install.packages("PSSMCOOL")
 # library(PSSMCOOL)
@@ -255,8 +268,8 @@ url <- "https://raw.githubusercontent.com/BioCool-Lab/PSSMCOOL/main/classificati
 download.file(url, './NegativeData.csv')
 negative_data <- read.csv("./NegativeData.csv", header = TRUE)
 ```
-####   ###############################---*Positive feature extraction*---####################################
-####   # *Feature extraction*
+####  ###############################---*Positive feature extraction*---####################################
+####  # *Feature extraction*
 ```
 positiveFeatures<- c() 
 for(i in 1:dim(positive_data)[1]) { 
@@ -304,9 +317,9 @@ negativeFeatures2 <- cbind(negativeFirstColumn, negativeFeatures, neg_class)
 mainDataSet <- rbind(positiveFeatures2, negativeFeatures2) 
 ```
 
-####   ###############################---*Preparing data set for model training*---###########################
-####   # *In the following we are going to carry out classification on the data we have prepared so far (mainDataSet)*
-####   # *First we need to install and load caret package and its dependencies*
+####  ###############################---*Preparing data set for model training*---###########################
+####  # *In the following we are going to carry out classification on the data we have prepared so far (mainDataSet)*
+####  # *First we need to install and load caret package and its dependencies*
 ```
 install.packages('caret', dependencies = TRUE) 
 library(caret) 
@@ -364,8 +377,8 @@ cross.validation.bulit.model.treebag <-
         verbose = FALSE) 
 print(cross.validation.bulit.model.treebag$results) 
 ```
-######   # parameter---Accuracy-----Kappa-----AccuracySD----KappaSD
-######   # 1---none---0.9965351---0.9930707---0.005582867---0.01116413
+######  # parameter---Accuracy-----Kappa-----AccuracySD----KappaSD
+######  # 1---none---0.9965351---0.9930707---0.005582867---0.01116413
 
 
 #### # #################---*10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier*---#####################
