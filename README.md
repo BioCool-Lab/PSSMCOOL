@@ -40,83 +40,368 @@ library(PSSMCOOL)
 <br></br>
 ![](vignettes/figures/pssm_ac.jpg)
 <br></br>
-<pre>                   Figure 2: process of extracting PSSM-AC feature vector from PSSM Matrix </pre>
+<pre>                         Figure 2: process of extracting PSSM-AC feature vector from PSSM Matrix </pre>
 
-![](vignettes/figures/screens/pssm_ac.JPG)
+![{PSSM-AC}_{i,j}=\frac{1}{(L-g)}\sum_{i=1}^{L-g}(S_{i,j}-\frac{1}{L}\sum_{i=1}^{L}S_{i,j})(S_{i+g,j}-\frac{1}{L}\sum_{i=1}^{L}S_{i,j})](https://latex.codecogs.com/svg.latex?%5Clarge%20%7BPSSM-AC%7D_%7Bi%2Cj%7D%3D%5Cfrac%7B1%7D%7B%28L-g%29%7D%5Csum_%7Bi%3D1%7D%5E%7BL-g%7D%28S_%7Bi%2Cj%7D-%5Cfrac%7B1%7D%7BL%7D%5Csum_%7Bi%3D1%7D%5E%7BL%7DS_%7Bi%2Cj%7D%29%28S_%7Bi&plus;g%2Cj%7D-%5Cfrac%7B1%7D%7BL%7D%5Csum_%7Bi%3D1%7D%5E%7BL%7DS_%7Bi%2Cj%7D%29)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ w<-PSSMAC(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+ head(w, n = 50)
+```
+```
+##  [1]  0.0092  0.0070  0.0181  0.0072 -0.0032  0.0054 -0.0068 -0.0065 -0.0015
+## [10] -0.0032  0.0057  0.0102  0.0059  0.0087  0.0176  0.0072  0.0141 -0.0080
+## [19] -0.0132  0.0109  0.0271  0.0064  0.0080  0.0107  0.0130  0.0024  0.0062
+## [28]  0.0126  0.0108  0.0061  0.0159 -0.0024  0.0157  0.0102 -0.0052  0.0141
+## [37] -0.0023 -0.0097  0.0244  0.0333  0.0094  0.0132 -0.0003 -0.0006  0.0158
+## [46]  0.0068  0.0094 -0.0069  0.0085 -0.0109
+```
 
 ## 3 DPC-PSSM
 <font size="4">This feature stands for dipeptide composition, which multiplies the values that are located in two consecutive rows and two different columns. Having calculated these values for different rows and columns, they are summed. Next, for both columns, the sum is divided by L-1. Since the result depends on two different columns, eventually a feature vector of length 400, according to Figure 3 and following equation ,will be obtained.</font>
-<br></br>
 
 ![](vignettes/figures/dpc-pssm.jpg)
-<pre>                   Figure 3: process of extracting DPC-PSSM feature vector from PSSM Matrix </pre>
-<br></br>
+<pre>                      Figure 3: process of extracting DPC-PSSM feature vector from PSSM Matrix </pre>
 
-![](vignettes/figures/screens/dpc_pssm.JPG)
+![y_{i,j}=\frac{1}{(L-1)}\sum_{k=1}^{L-1}S_{k,i}S_{k+1,j}, \\(1\leq{i,j}\leq{20})](https://latex.codecogs.com/svg.latex?%5Clarge%20y_%7Bi%2Cj%7D%3D%5Cfrac%7B1%7D%7B%28L-1%29%7D%5Csum_%7Bk%3D1%7D%5E%7BL-1%7DS_%7Bk%2Ci%7DS_%7Bk&plus;1%2Cj%7D%2C%20%5C%5C%281%5Cleq%7Bi%2Cj%7D%5Cleq%7B20%7D%29)
 
+
+<font size="4">In the above equation, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BS_%7Bi%2Cj%7D%7D">'s, are the PSSM elements and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7By_%7Bi%2Cj%7D%7D">'s are the 20x20 matrix elements, which by placing the rows of this matrix next to each other, DPC-PSSM feature vector of length 400 is obtained.</font>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ ss<-DPC_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(ss, n = 50)
+```
+```
+##  [1] 0.3773 0.2965 0.3371 0.3049 0.1816 0.4356 0.3395 0.2866 0.3109 0.2576
+## [11] 0.2622 0.3150 0.2776 0.3187 0.2383 0.3846 0.2755 0.1791 0.2180 0.2808
+## [21] 0.1528 0.1218 0.1387 0.1063 0.0794 0.1766 0.1235 0.1070 0.1410 0.1055
+## [31] 0.1085 0.1235 0.1078 0.1354 0.0858 0.1631 0.1174 0.0823 0.0939 0.1186
+## [41] 0.1241 0.0928 0.1133 0.0890 0.0416 0.1248 0.0982 0.0916 0.0916 0.0746
+```
 
 ## 4 Trigram-PSSM
 <font size="4">This feature vector is of length 8000, which is extracted from the PSSM. If we multiply elements available in three consecutive rows and three different columns of the PSSM by each other, and apply this to all rows (all three consecutive rows) and then sum these numbers, eventually one of the elements of feature vector with length 8000 corresponding to the three selected columns will be obtained. Because we have 20 different columns, The final feature vector will be of length 8000 = 20 * 20 * 20. Figure 4: shows these steps. For example, in this figure for three marked rows and columns, the numbers obtained from the intersection of these rows and columns marked with a blue dotted circle around them, are multiplied to each other. </font>
 
 ![](vignettes/figures/trigram.jpg)
 
-<pre>                   Figure 4: process of extracting trigram-PSSM feature vector from PSSM </pre>
-<br></br>
+<pre>                      Figure 4: process of extracting trigram-PSSM feature vector from PSSM </pre>
 
-![](vignettes/figures/screens/trigram.JPG)
-<br></br>
+![T_{m,n,r}=\sum_{i=1}^{L-2}P_{i,m}P_{i+1,n}P_{i+2,r}](https://latex.codecogs.com/svg.latex?%5Clarge%20T_%7Bm%2Cn%2Cr%7D%3D%5Csum_%7Bi%3D1%7D%5E%7BL-2%7DP_%7Bi%2Cm%7DP_%7Bi&plus;1%2Cn%7DP_%7Bi&plus;2%2Cr%7D)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+as<-trigrame_pssm(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GSI6.txt.pssm"))
+head(as, n = 50)
+```
+```
+##  [1] 6.8369 3.7511 4.1531 2.6852 2.6406 4.3763 2.8829 4.2257 3.7228 5.1379
+## [11] 5.2524 4.4484 5.1002 3.8583 5.1569 7.5018 5.2072 2.4309 2.8760 5.6669
+## [21] 3.5204 3.0895 2.7871 1.9459 0.7295 3.4388 2.1569 2.4319 3.2735 1.6680
+## [31] 1.9269 3.1770 2.1466 2.0473 3.1579 4.1613 2.8492 1.5444 1.8998 1.9281
+## [41] 3.3102 2.3229 2.7297 1.6388 1.3118 3.0535 1.9647 2.2095 2.7645 2.8273
+```
 
 ## 5 Pse-PSSM
 <font size="4"> The length of this feature vector is 320. The first 20 numbers of this feature vector are the mean of 20 columns in PSSM, and the next values for each column are the mean squares of the difference between the elements of row i and i + lag in this column. Because the lag value varies between 1 and 15, the final feature vector will have a length of 320. Figure 5: and following equation shows the process of this function and the corresponding mathematical equation, respectively.</font>
 
 ![](vignettes/figures/pse-pssm.jpg)
-<pre>                  Figure 5: process of extracting Pse-PSSM feature vector from PSSM </pre>
-<br></br>
+<pre>                       Figure 5: process of extracting Pse-PSSM feature vector from PSSM </pre>
 
-![](vignettes/figures/screens/pse_pssm.JPG)
+![p(k)=\frac{1}{L-lag}\sum_{i=1}^{L-lag}(p_{i,j}-p_{i+lag,j})^2 \\j=1,2,...,20,lag=1,2,...,15\\k=20+j+20(lag-1)](https://latex.codecogs.com/svg.latex?%5Clarge%20p%28k%29%3D%5Cfrac%7B1%7D%7BL-lag%7D%5Csum_%7Bi%3D1%7D%5E%7BL-lag%7D%28p_%7Bi%2Cj%7D-p_%7Bi&plus;lag%2Cj%7D%29%5E2%20%5C%5Cj%3D1%2C2%2C...%2C20%2Clag%3D1%2C2%2C...%2C15%5C%5Ck%3D20&plus;j&plus;20%28lag-1%29)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ v<-pse_pssm(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(v, n = 50)
+```
+```
+##  [1] 0.3773 0.2965 0.3371 0.3049 0.1816 0.4356 0.3395 0.2866 0.3109 0.2576
+## [11] 0.2622 0.3150 0.2776 0.3187 0.2383 0.3846 0.2755 0.1791 0.2180 0.2808
+## [21] 0.1636 0.1969 0.1304 0.2129 0.1649 0.1271 0.1766 0.1524 0.1649 0.1478
+## [31] 0.1197 0.1964 0.1259 0.1896 0.1973 0.1181 0.0903 0.1807 0.1477 0.1717
+## [41] 0.1693 0.1875 0.1729 0.2508 0.1585 0.1495 0.1832 0.1635 0.1666 0.1338
+```
 
 ## 6 k-Separated-bigram-PSSM
 <font size="4"> This feature is almost identical to the DPC feature, and in fact, the DPC feature is part of this feature (for k = 1) and for two different columns, it considers rows that have distance k.</font>
 
 ![](vignettes/figures/k-separated.jpg)
-<pre>                  Figure 6: process of extracting K-separated-bigam-PSSM feature vector from PSSM </pre>
+<pre>                  Figure 6: process of extracting K-separated-bigam-PSSM feature vector from PSSM </pre>  
 
-![](vignettes/figures/screens/k-separated.JPG)
+![T_{m,n}(k)=\sum_{i=1}^{L-k}p_{i,m}p_{i+k,n}\quad ,(1\leq{m,n}\leq{20})](https://latex.codecogs.com/svg.latex?%5Clarge%20T_%7Bm%2Cn%7D%28k%29%3D%5Csum_%7Bi%3D1%7D%5E%7BL-k%7Dp_%7Bi%2Cm%7Dp_%7Bi&plus;k%2Cn%7D%5Cquad%20%2C%281%5Cleq%7Bm%2Cn%7D%5Cleq%7B20%7D%29)
 
+#### Usage of this feature in PSSMCOOL package:
+```
+ w<-k_seperated_bigrame(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"),5)
+head(w, n = 50)
+```
+```
+##  [1] 17.8176 13.2148 15.5094 14.4319  8.3346 22.1273 16.1736 13.4963 13.7240
+## [10] 11.5597 11.8734 14.7134 12.4310 17.7145 11.2181 18.3770 12.4118  8.3759
+## [19] 10.2801 13.0504 14.3991 12.7802 13.3367 12.7504  6.5913 16.3527 13.2403
+## [28]  9.4264 10.8272  8.9290  7.9045 12.3299  7.7908  8.3621 10.7674 15.1463
+## [37] 10.1184  6.4232  6.2908 10.3672 14.7014 13.7350 16.3146 14.6568  7.6190
+## [46] 20.1827 15.6412 13.8415 13.7924  8.5747
+```
 
 ## 7 EDP-EEDP-MEDP
 <font size="4"> In this group of features, in order to use uniform dimensions to show proteins of different lengths, in the first step, the average evolutionary score between adjacent residues is calculated using the following equations:</font>
 
-![](vignettes/figures/screens/edp.JPG)
+![Aver_1=(p_{i-1,k}+p_{i,s})/2 \\ Aver_2=(p_{i,s}+p_{i+1,t})/2 \\ i=1,2,...,L\quad and \quad k,s,t=1,2,...,20](https://latex.codecogs.com/svg.latex?%5Clarge%20Aver_1%3D%28p_%7Bi-1%2Ck%7D&plus;p_%7Bi%2Cs%7D%29/2%20%5C%5C%20Aver_2%3D%28p_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%29/2%20%5C%5C%20i%3D1%2C2%2C...%2CL%5Cquad%20and%20%5Cquad%20k%2Cs%2Ct%3D1%2C2%2C...%2C20)
+
+<font size="4">Where L is equal to the length of the protein, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BAver_1%7D"> is the mean score of positions i and i-1, and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BAver_2%7D"> is the mean score of positions i and i+1. The evolutionary difference formula (EDF) is then defined as follows:</font>
+
+![EDF:x_{i-1,i+1}=(Aver_1-Aver_2)^2](https://latex.codecogs.com/svg.latex?%5Clarge%20EDF%3Ax_%7Bi-1%2Ci&plus;1%7D%3D%28Aver_1-Aver_2%29%5E2)
+
+<font size="4"> <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bx_%7Bi-1%2Ci&plus;1%7D%7D"> represents the mean of evolutionary difference between the residues of a given protein sequence. According to EDF, a given protein can be expressed by a 20 x 20 matrix called ED-PSSM, which is defined by the  equations</font>
+
+![ED-PSSM=(e_1,e_2,...,e_{20})\quad where \quad e_t=(e_{1,t},e_{2,t},...,e_{20,t})^T \\ 
+e_{k,t}=\sum_{i=2}^{L-1}x_{i-1,i+1}/L-2 \quad , k,t=1,2,..,20](https://latex.codecogs.com/svg.latex?%5Clarge%20ED-PSSM%3D%28e_1%2Ce_2%2C...%2Ce_%7B20%7D%29%5Cquad%20where%20%5Cquad%20e_t%3D%28e_%7B1%2Ct%7D%2Ce_%7B2%2Ct%7D%2C...%2Ce_%7B20%2Ct%7D%29%5ET%20%5C%5C%20e_%7Bk%2Ct%7D%3D%5Csum_%7Bi%3D2%7D%5E%7BL-1%7Dx_%7Bi-1%2Ci&plus;1%7D/L-2%20%5Cquad%20%2C%20k%2Ct%3D1%2C2%2C..%2C20)
+
+<font size="4"> Using this ED-PSSM, the three features EDP, EEDP, and MEDP are defined by the equations
+following equation, EDP has a length of 20, EEDP has a length of 400, and the MEDP feature is obtained by merging these two feature vectors.</font>
+
+![EDP=[\psi_1,\psi_2,...,\psi_{20}]^T \quad where \quad \psi_t=\sum_{k=1}^{20}e_{k,t}/20 \quad ,t=1,2,...,20 \\
+EEDP=[\psi_{21},\psi_{22},...,\psi_{420}]^T \quad where \quad \psi_u=e_{k,t} \quad ,u=21,22,...,420 \\
+MEDP=[\psi_1,\psi_2,...,\psi_{420}]^T](https://latex.codecogs.com/svg.latex?EDP%3D%5B%5Cpsi_1%2C%5Cpsi_2%2C...%2C%5Cpsi_%7B20%7D%5D%5ET%20%5Cquad%20where%20%5Cquad%20%5Cpsi_t%3D%5Csum_%7Bk%3D1%7D%5E%7B20%7De_%7Bk%2Ct%7D/20%20%5Cquad%20%2Ct%3D1%2C2%2C...%2C20%20%5C%5C%20EEDP%3D%5B%5Cpsi_%7B21%7D%2C%5Cpsi_%7B22%7D%2C...%2C%5Cpsi_%7B420%7D%5D%5ET%20%5Cquad%20where%20%5Cquad%20%5Cpsi_u%3De_%7Bk%2Ct%7D%20%5Cquad%20%2Cu%3D21%2C22%2C...%2C420%20%5C%5C%20MEDP%3D%5B%5Cpsi_1%2C%5Cpsi_2%2C...%2C%5Cpsi_%7B420%7D%5D%5ET)
+
+<font size="4"> Figure 7: also shows the process of this work. It is noteworthy that in the following equation the value of <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bp_%7Bi%2Cs%7D%7D"> is removed during the subtraction of <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BAver_1%7D"> and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BAver_2%7D">, and therefore this value is not shown in Figure 7.</font>
+
+![Aver_1=(p_{i-1,k}+p_{i,s})/2 \\
+Aver_2=(p_{i,s}+p_{i+1,t})/2](https://latex.codecogs.com/svg.latex?%5Clarge%20Aver_1%3D%28p_%7Bi-1%2Ck%7D&plus;p_%7Bi%2Cs%7D%29/2%20%5C%5C%20Aver_2%3D%28p_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%29/2)
+
 ![](vignettes/figures/EEDP.jpg)
 <pre>                  Figure 7: process of extracting EDP-EEDP-MEDP feature vectors from PSSM </pre>
-<br></br>
 
-![](vignettes/figures/screens/edp2.JPG)
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-EDP_MEDP(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GS61.txt.pssm"))
+head(as, n = 50)
+```
+```
+##  [1] 0.0470 0.0270 0.0327 0.0310 0.0275 0.0284 0.0307 0.0380 0.0325 0.0425
+## [11] 0.0394 0.0267 0.0329 0.0373 0.0334 0.0567 0.0558 0.0383 0.0350 0.0485
+## [21] 0.0266 0.0521 0.0464 0.0549 0.0455 0.0409 0.0429 0.0520 0.0574 0.0428
+## [31] 0.0425 0.0419 0.0354 0.0564 0.0492 0.0423 0.0436 0.0762 0.0549 0.0359
+## [41] 0.0515 0.0095 0.0211 0.0154 0.0123 0.0171 0.0174 0.0290 0.0149 0.0347
+```
 
 ## 8 AB-PSSM
 <font size="4"> This feature consists of two types of feature vectors. At first, each protein sequence is divided into 20 equal parts, each of which is called a block, and in each block, the row vectors of the PSSM
 related to that block are added together. The resulting final vector is divided by the length of that block, which is equal to 5% of protein length. Finally, by placing these 20 vectors side by side, the first feature vector of length 400 is obtained. The second feature for each amino acid in each column is the average of the positive numbers in that column and for each block, and these 20 values, corresponding to 20 blocks, are placed next to each other, and therefore for each of the 20 types of amino acids, a vector of length 20 is obtained, and by placing these together,the second feature vector of length 400, is obtained. Figure 8 represents this process.</font>
 
 ![](vignettes/figures/AB-PSSM.jpg)
-<pre>                  Figure 8: process of extracting AB-PSSM feature vectors from PSSM </pre>
+<pre>                       Figure 8: process of extracting AB-PSSM feature vectors from PSSM </pre>
 
-![](vignettes/figures/screens/ab-pssm.JPG)
+#### Usage of this feature in PSSMCOOL package:
+```
+  zz<- AB_PSSM(system.file("extdata","C7GRQ3.txt.pssm",package="PSSMCOOL"))
+head(zz[1], n = 50)
+```
+```
+## [[1]]
+##   [1] 0.3595 0.1202 0.3442 0.2908 0.0545 0.3715 0.3510 0.0816 0.1202 0.5049
+##  [11] 0.3361 0.3861 0.4256 0.2303 0.1354 0.5385 0.5939 0.0278 0.1983 0.4214
+##  [21] 0.6790 0.3226 0.6670 0.4566 0.1837 0.4365 0.5000 0.3562 0.4365 0.3546
+##  [31] 0.2157 0.4615 0.3340 0.0664 0.4495 0.7409 0.6774 0.0327 0.0963 0.3460
+##  [41] 0.4246 0.0571 0.3928 0.3598 0.1810 0.1769 0.3844 0.1568 0.1325 0.1810
+##  [51] 0.2183 0.1967 0.1040 0.2167 0.5664 0.6090 0.4246 0.0095 0.1126 0.2028
+##  [61] 0.3562 0.3961 0.2456 0.5310 0.0379 0.6522 0.7260 0.0519 0.2773 0.3794
+##  [71] 0.2448 0.6587 0.1332 0.1951 0.2488 0.5583 0.6236 0.1798 0.1836 0.3659
+##  [81] 0.4784 0.1351 0.2863 0.3325 0.4861 0.3323 0.3744 0.0590 0.1585 0.4641
+##  [91] 0.4197 0.3057 0.3361 0.2889 0.0308 0.4194 0.4896 0.0191 0.1836 0.4511
+## [101] 0.6639 0.2440 0.5651 0.6509 0.1202 0.5000 0.6774 0.3460 0.2591 0.2591
+## [111] 0.2992 0.4750 0.1821 0.0963 0.2076 0.7159 0.6540 0.0425 0.1083 0.2591
+## [121] 0.3725 0.1707 0.5000 0.6774 0.2623 0.4864 0.6654 0.3611 0.5583 0.1668
+## [131] 0.1332 0.3628 0.1701 0.3242 0.4116 0.5635 0.4230 0.2857 0.5197 0.2087
+## [141] 0.4615 0.1772 0.4929 0.5136 0.0914 0.5000 0.4750 0.3057 0.1788 0.1837
+## [151] 0.1701 0.4631 0.1452 0.2053 0.3731 0.6139 0.6188 0.2013 0.1322 0.3476
+## [161] 0.2461 0.1869 0.4197 0.2167 0.3073 0.3979 0.3941 0.1986 0.3708 0.5298
+## [171] 0.3996 0.3390 0.2960 0.1684 0.0547 0.3947 0.5120 0.0659 0.1739 0.4951
+## [181] 0.5586 0.3356 0.3976 0.1937 0.0447 0.4760 0.5003 0.1960 0.2209 0.3008
+## [191] 0.3614 0.5616 0.1582 0.0547 0.1665 0.4763 0.3812 0.0142 0.0278 0.3627
+## [201] 0.3760 0.3426 0.2342 0.0959 0.0346 0.3812 0.2154 0.0451 0.3520 0.0891
+## [211] 0.1357 0.6648 0.2956 0.2079 0.3536 0.5045 0.4763 0.0278 0.2264 0.0491
+## [221] 0.3073 0.0240 0.2523 0.0343 0.3199 0.1380 0.0282 0.0207 0.2364 0.4197
+## [231] 0.2254 0.0233 0.1234 0.2630 0.0231 0.4732 0.5395 0.1674 0.2817 0.4977
+## [241] 0.5884 0.3346 0.3812 0.3947 0.1923 0.5404 0.5216 0.4313 0.3193 0.4583
+## [251] 0.3861 0.4880 0.3210 0.1273 0.2737 0.5651 0.5385 0.0327 0.0833 0.4534
+## [261] 0.6654 0.2575 0.6269 0.5635 0.1572 0.5000 0.6405 0.6774 0.5770 0.2190
+## [271] 0.2076 0.5000 0.2326 0.1468 0.5385 0.7560 0.6155 0.0474 0.1322 0.2960
+## [281] 0.3210 0.4029 0.5071 0.3682 0.4511 0.2206 0.2542 0.2610 0.4145 0.2639
+## [291] 0.2704 0.3611 0.2430 0.1635 0.1684 0.5838 0.3845 0.0327 0.1582 0.2618
+## [301] 0.5169 0.1037 0.0756 0.1557 0.1458 0.0888 0.0418 0.3445 0.2564 0.2096
+## [311] 0.1406 0.0717 0.1231 0.3712 0.0299 0.6062 0.3536 0.2284 0.3184 0.2779
+## [321] 0.1866 0.2329 0.5026 0.5224 0.0884 0.2542 0.4347 0.2264 0.1582 0.0247
+## [331] 0.0146 0.4253 0.0205 0.0059 0.1610 0.2759 0.3356 0.0040 0.0156 0.1360
+## [341] 0.1701 0.1836 0.1869 0.0341 0.3225 0.2553 0.1133 0.0191 0.5418 0.3611
+## [351] 0.4163 0.2128 0.2300 0.5189 0.0222 0.3562 0.3679 0.3881 0.6778 0.4246
+## [361] 0.4864 0.2825 0.6524 0.7289 0.0425 0.4615 0.7611 0.7645 0.2342 0.0963
+## [371] 0.0714 0.6654 0.1083 0.0628 0.3595 0.5000 0.3980 0.0964 0.1034 0.1023
+## [381] 0.2007 0.2046 0.1458 0.1235 0.2044 0.1362 0.1407 0.0557 0.2154 0.6054
+## [391] 0.4998 0.1505 0.5000 0.3558 0.0226 0.2677 0.2905 0.1722 0.3651 0.5821
+```
 
 ## 9 AATP-TPC
 <font size="4"> In this feature, at first, a TPM matrix is constructed from the PSSM, which has represented by a vector corresponding to the following equation:</font>
-![](vignettes/figures/screens/aatp1.JPG)
+
+![Y_{TPM}=(y_{1,1},y_{1,2},...,y_{1,20},...,y_{i,1},...,y_{i,20},...,y_{20,1},...,y_{20,20})^T](https://latex.codecogs.com/svg.latex?%5Clarge%20Y_%7BTPM%7D%3D%28y_%7B1%2C1%7D%2Cy_%7B1%2C2%7D%2C...%2Cy_%7B1%2C20%7D%2C...%2Cy_%7Bi%2C1%7D%2C...%2Cy_%7Bi%2C20%7D%2C...%2Cy_%7B20%2C1%7D%2C...%2Cy_%7B20%2C20%7D%29%5ET)
+
+<font size="4">Where the components are as follows:</font>
+
+![y_{i,j}=(\sum_{k=1}^{L-1}P_{k,i}\times P_{k+1,j})/(\sum_{j=1}^{20}\sum_{k=1}^{L-1}P_{k+1,j}\times P_{k,i}) \\  1\leq{i,j}\leq{20}](https://latex.codecogs.com/svg.latex?%5Clarge%20y_%7Bi%2Cj%7D%3D%28%5Csum_%7Bk%3D1%7D%5E%7BL-1%7DP_%7Bk%2Ci%7D%5Ctimes%20P_%7Bk&plus;1%2Cj%7D%29/%28%5Csum_%7Bj%3D1%7D%5E%7B20%7D%5Csum_%7Bk%3D1%7D%5E%7BL-1%7DP_%7Bk&plus;1%2Cj%7D%5Ctimes%20P_%7Bk%2Ci%7D%29%20%5C%5C%201%5Cleq%7Bi%2Cj%7D%5Cleq%7B20%7D)
+
 
 <font size="4"> In the above equation, the numerator is the same as the equation related to DPC-PSSM feature without considering its coefficient. By placing these components together, a TPC feature vector of length 400 is obtained, and if we add the AAC feature vector of length 20 which is the average of columns of the PSSM to the beginning of this vector, AATP feature vector of length 420 is obtained.</font>
 
-![](vignettes/figures/screens/aatp2.JPG)
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-AATP_TPCC(paste0(system.file("extdata",package="PSSMCOOL"),"/C7GQS7.txt.pssm"))
+head(as, n = 50)
+```
+```
+##  [1] 0.3773 0.2965 0.3371 0.3049 0.1816 0.4356 0.3395 0.2866 0.3109 0.2576
+## [11] 0.2622 0.3150 0.2776 0.3187 0.2383 0.3846 0.2755 0.1791 0.2180 0.2808
+## [21] 0.0640 0.0510 0.0580 0.0445 0.0332 0.0739 0.0517 0.0448 0.0590 0.0442
+## [31] 0.0454 0.0517 0.0451 0.0567 0.0359 0.0683 0.0492 0.0344 0.0393 0.0496
+## [41] 0.0706 0.0528 0.0645 0.0507 0.0237 0.0710 0.0559 0.0521 0.0521 0.0425
+```
 
-![](vignettes/figures/screens/cs-pse1.JPG)
-![](vignettes/figures/screens/cs-pse2.JPG)
-![](vignettes/figures/screens/cs-pse3.JPG)
+## 10 CS-PSe-PSSM
+<font size="4"> This feature consists of a combination of several types of features, and in general, the obtained feature vector would be of length 700. Here all parts of this feature are described separately.</font>
+
+## 10.1 CSAAC
+
+<font size="4"> First, the consensus sequence is obtained from the PSSM according to the following equation, then from this consensus sequence next feature vectors are obtained </font>
+
+![\alpha(i)=argmax{P_{i,j}:\ 1\leq j\leq {20}} \quad ,1\leq i\leq L](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Calpha%28i%29%3Dargmax%7BP_%7Bi%2Cj%7D%3A%5C%201%5Cleq%20j%5Cleq%20%7B20%7D%7D%20%5Cquad%20%2C1%5Cleq%20i%5Cleq%20L)
+
+<font size="4">where <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Calpha%28i%29%7D"> is the index for the largest element in row i  of PSSM, and the ith component in the consensus sequence equal to the <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Calpha%28i%29%7D">'th amino acid in the standard amino acid alphabet which the column names of PSSM are labeled by them. Now, using the following equation, the feature vector of length 20 is obtained:</font>
+
+![CSAAC=\frac{n(j)}{L}\quad ,1\leq j\leq{20}](https://latex.codecogs.com/svg.latex?%5Clarge%20CSAAC%3D%5Cfrac%7Bn%28j%29%7D%7BL%7D%5Cquad%20%2C1%5Cleq%20j%5Cleq%7B20%7D)
+
+<font size="4"> Here <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bn%28j%29%7D"> shows the number of j-th amino acid occurrences in the consensus sequence </font>
+
+## 10.2 CSCM
+
+<font size="4">This feature vector is obtained using the following equation from the consensus sequence:</font>
+
+![CSCM=\frac{\sum_{j=1}^{n_i}n_{i,j}}{L(L-1)}\quad ,1\leq i\leq{20}\quad ,1\leq j\leq L](https://latex.codecogs.com/svg.latex?%5Clarge%20CSCM%3D%5Cfrac%7B%5Csum_%7Bj%3D1%7D%5E%7Bn_i%7Dn_%7Bi%2Cj%7D%7D%7BL%28L-1%29%7D%5Cquad%20%2C1%5Cleq%20i%5Cleq%7B20%7D%5Cquad%20%2C1%5Cleq%20j%5Cleq%20L)
+
+<font size="4"> Here <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bn%28i%29%7D"> shows the number of i-th amino acid occurrences in the consensus sequence and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bn_%7Bi%2Cj%7D%7D"> indicates the j-th position of the i-th amino acid in the consensus sequence.</font>
+
+## 10.3 Segmented PsePSSM features
+
+<font size="4">Here the PSSM is divided into n segments, which corresponds to dividing the initial protein sequence into n segments,  if n = 2:</font>
+
+![L_1=round(L/2) \quad , L_2=L-L_1](https://latex.codecogs.com/svg.latex?%5Clarge%20L_1%3Dround%28L/2%29%20%5Cquad%20%2C%20L_2%3DL-L_1)
+
+<font size="4">Where L represents the length of the initial protein and indexed L's indicate the length of the first and second segments, respectively. Now, using the following equations, the feature vector components of length 200 are obtained</font>
+
+![\alpha_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=1}^{L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
+\frac{1}{{L_1}-\lambda}\sum_{i=1}^{{L_1}-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2,3,4\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Calpha_j%5E%5Clambda%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cfrac%7B1%7D%7BL_1%7D%5Csum_%7Bi%3D1%7D%5E%7BL_1%7DP_%7Bi%2Cj%7D%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D0%20%5C%5C%20%5Cfrac%7B1%7D%7B%7BL_1%7D-%5Clambda%7D%5Csum_%7Bi%3D1%7D%5E%7B%7BL_1%7D-%5Clambda%7D%28P_%7Bi%2Cj%7D-P_%7Bi&plus;%5Clambda%2Cj%7D%29%5E2%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D1%2C2%2C3%2C4%5Cend%7Barray%7D%5Cright.)
+
+![\beta_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L-L_1}\sum_{i=L_1+1}^{L}P_{i,j} & j=1,2,...,20,\lambda=0 \\
+\frac{1}{L-L_1-\lambda}\sum_{i=L_1+1}^{L-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2,3,4\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbeta_j%5E%5Clambda%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cfrac%7B1%7D%7BL-L_1%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7BL%7DP_%7Bi%2Cj%7D%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D0%20%5C%5C%20%5Cfrac%7B1%7D%7BL-L_1-%5Clambda%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7BL-%5Clambda%7D%28P_%7Bi%2Cj%7D-P_%7Bi&plus;%5Clambda%2Cj%7D%29%5E2%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D1%2C2%2C3%2C4%5Cend%7Barray%7D%5Cright.)
+
+<font size="4">And if n = 3 then we have:</font>
+
+![L_1=round(L/3) \quad , L_2=2L_1 \quad ,L_3=L-2L_1](https://latex.codecogs.com/svg.latex?%5Clarge%20L_1%3Dround%28L/3%29%20%5Cquad%20%2C%20L_2%3D2L_1%20%5Cquad%20%2CL_3%3DL-2L_1)
+
+<font size="4">Therefore, using the following equations, the  components of a feature vector with length 180 are obtained as follows:</font>
+
+![\theta_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=1}^{L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
+\frac{1}{L_1-\lambda}\sum_{i=1}^{L_1-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Ctheta_j%5E%5Clambda%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cfrac%7B1%7D%7BL_1%7D%5Csum_%7Bi%3D1%7D%5E%7BL_1%7DP_%7Bi%2Cj%7D%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D0%20%5C%5C%20%5Cfrac%7B1%7D%7BL_1-%5Clambda%7D%5Csum_%7Bi%3D1%7D%5E%7BL_1-%5Clambda%7D%28P_%7Bi%2Cj%7D-P_%7Bi&plus;%5Clambda%2Cj%7D%29%5E2%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D1%2C2%5Cend%7Barray%7D%5Cright.)
+
+
+![\mu_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L_1}\sum_{i=L_1+1}^{2L_1}P_{i,j} & j=1,2,...,20,\lambda=0 \\
+\frac{1}{L_1-\lambda}\sum_{i=L_1+1}^{2L_1-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cmu_j%5E%5Clambda%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cfrac%7B1%7D%7BL_1%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7B2L_1%7DP_%7Bi%2Cj%7D%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D0%20%5C%5C%20%5Cfrac%7B1%7D%7BL_1-%5Clambda%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7B2L_1-%5Clambda%7D%28P_%7Bi%2Cj%7D-P_%7Bi&plus;%5Clambda%2Cj%7D%29%5E2%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D1%2C2%5Cend%7Barray%7D%5Cright.)
+
+
+![v_j^\lambda=\left\{\begin{array}{ll}\frac{1}{L-2L_1}\sum_{i=2L_1+1}^{L}P_{i,j} & j=1,2,...,20,\lambda=0 \\
+\frac{1}{L-2L_1-\lambda}\sum_{i=2L_1+1}^{L-\lambda}(P_{i,j}-P_{i+\lambda,j})^2 & j=1,2,...,20,\lambda=1,2\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20v_j%5E%5Clambda%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Cfrac%7B1%7D%7BL-2L_1%7D%5Csum_%7Bi%3D2L_1&plus;1%7D%5E%7BL%7DP_%7Bi%2Cj%7D%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D0%20%5C%5C%20%5Cfrac%7B1%7D%7BL-2L_1-%5Clambda%7D%5Csum_%7Bi%3D2L_1&plus;1%7D%5E%7BL-%5Clambda%7D%28P_%7Bi%2Cj%7D-P_%7Bi&plus;%5Clambda%2Cj%7D%29%5E2%20%26%20j%3D1%2C2%2C...%2C20%2C%5Clambda%3D1%2C2%5Cend%7Barray%7D%5Cright.)
+
+<font size="4">In total, using the previous feature vector, a feature vector of length 380 is obtained for this group.</font>
+
+## 10.4 Segmented ACTPSSM features
+<font size="4">In this group, using the previous equations and the following equations, the feature vector of length 280 could be obtained. when n=2:</font>
+
+![AC1_j^{lg}=\frac{1}{L_1-lg}\sum_{i=1}^{L_1-lg}(P_{i,j}-\alpha_j^0)(P_{i+lg,j}-\alpha_j^0)\\ 
+AC2_j^{lg}=\frac{1}{L-L_1-lg}\sum_{i=L_1+1}^{L-lg}(P_{i,j}-\beta_j^0)(P_{i+lg,j}-\beta_j^0)\\
+j=1,2,...,20,lg=1,2,3,4](https://latex.codecogs.com/svg.latex?AC1_j%5E%7Blg%7D%3D%5Cfrac%7B1%7D%7BL_1-lg%7D%5Csum_%7Bi%3D1%7D%5E%7BL_1-lg%7D%28P_%7Bi%2Cj%7D-%5Calpha_j%5E0%29%28P_%7Bi&plus;lg%2Cj%7D-%5Calpha_j%5E0%29%5C%5C%20AC2_j%5E%7Blg%7D%3D%5Cfrac%7B1%7D%7BL-L_1-lg%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7BL-lg%7D%28P_%7Bi%2Cj%7D-%5Cbeta_j%5E0%29%28P_%7Bi&plus;lg%2Cj%7D-%5Cbeta_j%5E0%29%5C%5C%20j%3D1%2C2%2C...%2C20%2Clg%3D1%2C2%2C3%2C4)
+
+<font size="4">when n=3:</font>
+
+![AC1_j^{lg}=\frac{1}{L_1-lg}\sum_{i=1}^{L_1-lg}(P_{i,j}-\theta_j^0)(P_{i+lg,j}-\theta_j^0)\\ 
+AC2_j^{lg}=\frac{1}{L_1-lg}\sum_{i=L_1+1}^{2L_1-lg}(P_{i,j}-\mu_j^0)(P_{i+lg,j}-\mu_j^0)\\
+AC3_j^{lg}=\frac{1}{L-2L_1-lg}\sum_{i=2L_1+1}^{L-lg}(P_{i,j}-v_j^0)(P_{i+lg,j}-v_j^0)\\
+j=1,2,...,20,lg=1,2](https://latex.codecogs.com/svg.latex?AC1_j%5E%7Blg%7D%3D%5Cfrac%7B1%7D%7BL_1-lg%7D%5Csum_%7Bi%3D1%7D%5E%7BL_1-lg%7D%28P_%7Bi%2Cj%7D-%5Ctheta_j%5E0%29%28P_%7Bi&plus;lg%2Cj%7D-%5Ctheta_j%5E0%29%5C%5C%20AC2_j%5E%7Blg%7D%3D%5Cfrac%7B1%7D%7BL_1-lg%7D%5Csum_%7Bi%3DL_1&plus;1%7D%5E%7B2L_1-lg%7D%28P_%7Bi%2Cj%7D-%5Cmu_j%5E0%29%28P_%7Bi&plus;lg%2Cj%7D-%5Cmu_j%5E0%29%5C%5C%20AC3_j%5E%7Blg%7D%3D%5Cfrac%7B1%7D%7BL-2L_1-lg%7D%5Csum_%7Bi%3D2L_1&plus;1%7D%5E%7BL-lg%7D%28P_%7Bi%2Cj%7D-v_j%5E0%29%28P_%7Bi&plus;lg%2Cj%7D-v_j%5E0%29%5C%5C%20j%3D1%2C2%2C...%2C20%2Clg%3D1%2C2)
+
+<font size="4">If we connect all these feature vectors together, we will get a feature vector with a length of 700, which is reduced by PCA method and is used as input for the support vector machine classifier.</font>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ A<-CS_PSe_PSSM(system.file("extdata", "C7GSI6.txt.pssm", package="PSSMCOOL"),"total")
+head(A, n = 50)
+```
+```
+##  [1] 0.0833 0.0278 0.0694 0.0139 0.0556 0.0139 0.0000 0.0278 0.0139 0.1250
+## [11] 0.0833 0.0417 0.0556 0.0556 0.1111 0.0833 0.0278 0.0139 0.0417 0.0556
+## [21] 0.0350 0.0139 0.0299 0.0082 0.0401 0.0104 0.0000 0.0211 0.0012 0.0841
+## [31] 0.0401 0.0335 0.0280 0.0411 0.0149 0.0327 0.0125 0.0121 0.0196 0.0358
+## [41] 0.4777 0.2352 0.2671 0.1705 0.1904 0.2805 0.2288 0.2839 0.2522 0.3366
+```
+
+## 11 D-FPSSM/S-FPSSM
+
+<font size="4">If we sum the numbers of each column in the PSSM, we get a feature vector of length 20 as follows:</font>
+
+![D=(d_1,d_2,...,d_{20})](https://latex.codecogs.com/svg.latex?%5Clarge%20D%3D%28d_1%2Cd_2%2C...%2Cd_%7B20%7D%29)
+
+<font size="4">If we remove the negative elements somehow of the PSSM and call the resulting new matrix FPSSM and then calculate this feature vector for FPSSM, the components of this vector will depend on the length of the original protein, so to eliminate this dependency, we normalize the components of this vector using the following equation:</font>
+
+![d_i=\frac{d_i-min}{max\times L}](https://latex.codecogs.com/svg.latex?%5Clarge%20d_i%3D%5Cfrac%7Bd_i-min%7D%7Bmax%5Ctimes%20L%7D)
+
+<font size="4">Where, min and max represent the smallest and largest values of the previous vector components, respectively, and L represents the length of the original protein. The second feature vector with length 400 is obtained as follows:</font>
+
+![S=(s_1^{(1)},s_2^{(1)},...,s_{20}^{(1)},s_1^{(2)},s_2^{(2)},...,s_{20}^{(2)},...,s_1^{(20)},s_2^{(20)},...,s_{20}^{(20)})](https://latex.codecogs.com/svg.latex?%5Clarge%20S%3D%28s_1%5E%7B%281%29%7D%2Cs_2%5E%7B%281%29%7D%2C...%2Cs_%7B20%7D%5E%7B%281%29%7D%2Cs_1%5E%7B%282%29%7D%2Cs_2%5E%7B%282%29%7D%2C...%2Cs_%7B20%7D%5E%7B%282%29%7D%2C...%2Cs_1%5E%7B%2820%29%7D%2Cs_2%5E%7B%2820%29%7D%2C...%2Cs_%7B20%7D%5E%7B%2820%29%7D%29)
+
+<font size="4">If we name the columns of the FPSSM from <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Ba_1%7D"> to <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Ba_%7B20%7D%7D"> in the order from left to right, 
+then <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BS_j%5E%7B%28i%29%7D%7D"> is equal to the sum of those members in the j-th column in the FPSSM whose corresponding row amino acid is equal to <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Ba_i%7D">. Figure 9 schematically shows these steps:</font>
 
 ![](vignettes/figures/screens/df-pssm1.JPG)
-![](vignettes/figures/screens/df-pssm2.JPG)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ q<-FPSSM(system.file("extdata","C7GQS7.txt.pssm",package="PSSMCOOL"),20)
+head(q, n = 50)
+```
+```
+## [[1]]
+##  [1]  62  65  48  87 105 124  61  73  75  49  63  74  48 116  83  53  21  80  55
+## [20]  54
+## 
+## [[2]]
+##   [1] 14  6  1  2  5  5  0  7  7  1  2  3  1  6  2  2  2  0  0  1  3 11  2  0  2
+##  [26]  0  0  0  3  0  1  1  1  0  0  1  1  0  1  0  9  1 11 12  0  3  1 14  0  1
+##  [51]  0  1  0  9  4  5  2  0  0  3  3  4  4 41  0  7 14  1  6  0  3  5  0  0  0
+##  [76]  3  0  0  0  0  0  0  0  0 87  0  0  0  0  0  0  0  0  5  0  2  0  0  0  0
+## [101]  3 10  6  8  0 52 12  6 15  0  1  2 10  7 21 10  1  1  0  0  0  1  0  3  0
+## [126]  4  5  4  0  0  0  0  0  0  1  0  0  1  0  0  6  0  7  2  1  4  2 23  2  2
+## [151]  1  4  4  5  0  0  0  6  0  1  0  2  4  1  0 16  3  3 17  0  0  8  5  1  0
+## [176]  0  0  0  0  0  1  0  0  0  1  0  0  0  0 16  9  6  4  4  0  0  0  1  0  9
+## [201]  2  0  0  5  2  0  5  0  0 11 23  0  4  2  0  0  0  0  1  6  2 19  4  5  6
+## [226]  7 10  3  7  0  0 40  0  0  0  5  2  6  2  0  0  0  0  0  0  0  0  0  0  0
+## [251]  3  0  9  0  0  0  0  0  0  0  5  2  1  0  1  8  0  1  6  4 14  0  6 46  0
+## [276]  0  1 12 11  4  5  1  1  7  0  5  0 10  3  0  0  0  0  1 52  1  0  7  1  0
+## [301]  5  3  4  0  0  5  4  0  3  0  1  3  1  1  1 20  1  9  1  3  4  0  0  1  0
+## [326]  1  1  1  1  0  0  0  0  5  1  3 11  2  2  0  0  0  0  0  0  0  0  0  0  2
+## [351]  1  0  0  7  0  0  0 16  2  0  0  0  0  0  0  2  0  0  2  2  0  0  0  9  0
+## [376]  0  0 16 30  3  0  5  3  0  0  5  4  0  3 10  4  1  3  8  1  1  0  3  4 24
+```
 
 ## 12 SCSH2
 
@@ -125,21 +410,167 @@ Now in this graph, each path of length 2 specifies a 3-mer and each path of leng
 <br></br>
 
 ![](vignettes/figures/screens/scsh1.JPG)
-![](vignettes/figures/screens/scsh2.JPG)
 
-![](vignettes/figures/screens/rpssm1.JPG)
-![](vignettes/figures/screens/rpssm2.JPG)
+#### Usage of this feature in PSSMCOOL package:
+```
+ zz<- scsh2(system.file("extdata","C7GRQ3.txt.pssm",package="PSSMCOOL"),2)
+head(zz, n = 200)
+```
+```
+##   [1] 1 1 1 1 1 1 0 1 1 1 0 1 0 0 1 1 0 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 0 0
+##  [38] 1 0 1 0 0 1 1 1 1 1 1 1 0 0 1 1 0 0 1 0 1 0 1 1 1 1 1 0 1 0 1 1 0 0 1 0 1
+##  [75] 1 1 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0 0 1 0 1 1 0 0 0 1 1 1 1
+## [112] 1 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 0 1 0 0 0 1 0 0 0 0 1 1 0 1 1 1 1 1
+## [149] 1 1 0 1 1 1 0 1 1 1 1 0 1 0 1 0 1 0 1 0 1 1 0 1 0 1 0 1 1 0 1 1 1 1 1 1 0
+## [186] 1 1 1 1 1 0 1 1 1 0 1 0 1 1 1
+```
+
+## 13 RPSSM
+
+<p>If we represent the PSSM as follows:</p>
+
+![D=(P_A,P_R,P_N,P_D,P_C,P_Q,P_E,P_G,P_H,P_I,P_L,P_K,P_M,P_F,P_P,P_S,P_T,P_W,P_Y,P_V)](https://latex.codecogs.com/svg.latex?%5Clarge%20D%3D%28P_A%2CP_R%2CP_N%2CP_D%2CP_C%2CP_Q%2CP_E%2CP_G%2CP_H%2CP_I%2CP_L%2CP_K%2CP_M%2CP_F%2CP_P%2CP_S%2CP_T%2CP_W%2CP_Y%2CP_V%29)
+
+<font size="4">The indices will show the standard 20 amino acids. If we assume that our primary protein has length L, each of the above columns is as follows:</font>
+
+![P_A=(P_{1,A},P_{2,A},...,P_{L,A})^T](https://latex.codecogs.com/svg.latex?%5Clarge%20P_A%3D%28P_%7B1%2CA%7D%2CP_%7B2%2CA%7D%2C...%2CP_%7BL%2CA%7D%29%5ET)
+
+<font size="4">Now, using the following equations, we merge the columns of the PSSM and obtain a matrix with dimensions <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BL%5Ctimes%2010%7D">:</font>
+
+![P_1=\frac{P_F+P_Y+P_W}{3},P_2=\frac{P_M+P_L}{2}P_3=\frac{P_I+P_V}{2}\\
+P_4=\frac{P_A+P_T+P_S}{2},P_5=\frac{P_N+P_H}{2},P_6=\frac{P_Q+P_E+P_D}{3}\\
+P_7=\frac{P_R+P_K}{2},P_8=P_C,P_9=P_G,P_{10}=P_P](https://latex.codecogs.com/svg.latex?%5Clarge%20P_1%3D%5Cfrac%7BP_F&plus;P_Y&plus;P_W%7D%7B3%7D%2CP_2%3D%5Cfrac%7BP_M&plus;P_L%7D%7B2%7DP_3%3D%5Cfrac%7BP_I&plus;P_V%7D%7B2%7D%5C%5C%20P_4%3D%5Cfrac%7BP_A&plus;P_T&plus;P_S%7D%7B2%7D%2CP_5%3D%5Cfrac%7BP_N&plus;P_H%7D%7B2%7D%2CP_6%3D%5Cfrac%7BP_Q&plus;P_E&plus;P_D%7D%7B3%7D%5C%5C%20P_7%3D%5Cfrac%7BP_R&plus;P_K%7D%7B2%7D%2CP_8%3DP_C%2CP_9%3DP_G%2CP_%7B10%7D%3DP_P)
+
+![RD=\begin{pmatrix}
+-&1&2&3&4&5&6&7&8&9&10\\
+a_1&p_{1,1}&p_{1,2}&p_{1,3}&p_{1,4}&p_{1,5}&p_{1,6}&p_{1,7}&p_{1,8}&p_{1,9}&p_{1,10}\\
+a_2&p_{2,1}&p_{2,2}&p_{2,3}&p_{2,4}&p_{2,5}&p_{2,6}&p_{2,7}&p_{2,8}&p_{2,9}&p_{2,10}\\
+\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+a_L&p_{L,1}&p_{L,2}&p_{L,3}&p_{L,4}&p_{L,5}&p_{L,6}&p_{L,7}&p_{L,8}&p_{L,9}&p_{L,10}
+\end{pmatrix}](https://latex.codecogs.com/svg.latex?%5Clarge%20RD%3D%5Cbegin%7Bpmatrix%7D%20-%261%262%263%264%265%266%267%268%269%2610%5C%5C%20a_1%26p_%7B1%2C1%7D%26p_%7B1%2C2%7D%26p_%7B1%2C3%7D%26p_%7B1%2C4%7D%26p_%7B1%2C5%7D%26p_%7B1%2C6%7D%26p_%7B1%2C7%7D%26p_%7B1%2C8%7D%26p_%7B1%2C9%7D%26p_%7B1%2C10%7D%5C%5C%20a_2%26p_%7B2%2C1%7D%26p_%7B2%2C2%7D%26p_%7B2%2C3%7D%26p_%7B2%2C4%7D%26p_%7B2%2C5%7D%26p_%7B2%2C6%7D%26p_%7B2%2C7%7D%26p_%7B2%2C8%7D%26p_%7B2%2C9%7D%26p_%7B2%2C10%7D%5C%5C%20%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%26%5Cvdots%5C%5C%20a_L%26p_%7BL%2C1%7D%26p_%7BL%2C2%7D%26p_%7BL%2C3%7D%26p_%7BL%2C4%7D%26p_%7BL%2C5%7D%26p_%7BL%2C6%7D%26p_%7BL%2C7%7D%26p_%7BL%2C8%7D%26p_%7BL%2C9%7D%26p_%7BL%2C10%7D%20%5Cend%7Bpmatrix%7D)
+
+<font size="4">Now using this new matrix we get a feature vector of length 10 as follows: </font>
+
+![D_s=\frac{1}{L}\sum_{i=1}^L (p_{i,s}-\overline p_s)^2](https://latex.codecogs.com/svg.latex?%5Clarge%20D_s%3D%5Cfrac%7B1%7D%7BL%7D%5Csum_%7Bi%3D1%7D%5EL%20%28p_%7Bi%2Cs%7D-%5Coverline%20p_s%29%5E2)
+
+<font size="4"> where </font>
+
+![\overline p_s=\frac{1}{L}\sum_{i=1}^L p_{i,s} \quad ,s=1,2,...,10,\ i=1,2,...,L \ ,p_{i,s} \in RD](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Coverline%20p_s%3D%5Cfrac%7B1%7D%7BL%7D%5Csum_%7Bi%3D1%7D%5EL%20p_%7Bi%2Cs%7D%20%5Cquad%20%2Cs%3D1%2C2%2C...%2C10%2C%5C%20i%3D1%2C2%2C...%2CL%20%5C%20%2Cp_%7Bi%2Cs%7D%20%5Cin%20RD)
+
+<font size="4"> now using following equations; will create a feature vector of length 100 and by combining the feature vector of length 10 mentioned previously, the final feature vector of length 110 will be created.</font>
+
+![\begin{aligned}
+x_{i,i+1}&=(p_{i,s}-\frac{p_{i,s}+p_{i+1,t}}{2})^2+(p_{i+1,t}-\frac{p_{i,s}+p_{i+1,t}}{2})^2\\
+&=\frac{(p_{i,s}-p_{i+1,t})^2}{2}\quad i=1,2,...,L-1 \quad ,s,t=1,2,...,10 
+\end{aligned}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbegin%7Baligned%7D%20x_%7Bi%2Ci&plus;1%7D%26%3D%28p_%7Bi%2Cs%7D-%5Cfrac%7Bp_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%7D%7B2%7D%29%5E2&plus;%28p_%7Bi&plus;1%2Ct%7D-%5Cfrac%7Bp_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%7D%7B2%7D%29%5E2%5C%5C%20%26%3D%5Cfrac%7B%28p_%7Bi%2Cs%7D-p_%7Bi&plus;1%2Ct%7D%29%5E2%7D%7B2%7D%5Cquad%20i%3D1%2C2%2C...%2CL-1%20%5Cquad%20%2Cs%2Ct%3D1%2C2%2C...%2C10%20%5Cend%7Baligned%7D)
+
+![\begin{aligned}
+D_{s,t}&=\frac{1}{L-1}\sum_{i=1}^{L-1}x_{i,i+1} \\
+&=\frac{1}{L-1}\sum_{i=1}^{L-1}[(p_{i,s}-\frac{p_{i,s}+p_{i+1,t}}{2})^2+(p_{i+1,t}-\frac{p_{i,s}+p_{i+1,t}}{2})^2] \\
+&=\frac{1}{L-1}\sum_{i=1}^{L-1}\frac{(p_{i,s}-p_{i+1,t})^2}{2} \quad ,s,t=1,2,...,10
+\end{aligned}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cbegin%7Baligned%7D%20D_%7Bs%2Ct%7D%26%3D%5Cfrac%7B1%7D%7BL-1%7D%5Csum_%7Bi%3D1%7D%5E%7BL-1%7Dx_%7Bi%2Ci&plus;1%7D%20%5C%5C%20%26%3D%5Cfrac%7B1%7D%7BL-1%7D%5Csum_%7Bi%3D1%7D%5E%7BL-1%7D%5B%28p_%7Bi%2Cs%7D-%5Cfrac%7Bp_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%7D%7B2%7D%29%5E2&plus;%28p_%7Bi&plus;1%2Ct%7D-%5Cfrac%7Bp_%7Bi%2Cs%7D&plus;p_%7Bi&plus;1%2Ct%7D%7D%7B2%7D%29%5E2%5D%20%5C%5C%20%26%3D%5Cfrac%7B1%7D%7BL-1%7D%5Csum_%7Bi%3D1%7D%5E%7BL-1%7D%5Cfrac%7B%28p_%7Bi%2Cs%7D-p_%7Bi&plus;1%2Ct%7D%29%5E2%7D%7B2%7D%20%5Cquad%20%2Cs%2Ct%3D1%2C2%2C...%2C10%20%5Cend%7Baligned%7D)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ w<-rpssm(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(w, n = 50)
+```
+```
+##  [1] 0.0620 0.0528 0.0646 0.0674 0.0806 0.0810 0.0883 0.0824 0.0988 0.0950
+## [11] 0.0621 0.0482 0.0640 0.0575 0.0896 0.1044 0.0888 0.0752 0.1037 0.1039
+## [21] 0.0787 0.0618 0.0731 0.0671 0.0982 0.1050 0.0912 0.0805 0.1200 0.1085
+## [31] 0.0559 0.0589 0.0685 0.0373 0.0523 0.0643 0.0633 0.0727 0.0819 0.0853
+## [41] 0.0693 0.0864 0.1022 0.0645 0.0493 0.0570 0.0811 0.1101 0.0714 0.0823
+```
+
+
+## 14 CC-PSSM
+<p>This feature, which is similar to the PSSM-AC feature, stands for cross-covariance transformation. for column <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bj_1%7D">, Calculates the average of this column as shown in Figure 12, and then subtract the result from the number on the i-th row in this column. Similarly, the feature calculates the average for the column <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bj_2%7D"> and then subtracts the resulting number from the value on row i + g of this column and finally multiplies them. By changing the variable i from 1 to L-g, it calculates the sum of these, because the variable <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bj_1%7D"> changes between 1 and 20 and the variable <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bj_2%7D"> changes in the same interval (1,20) except for the number selected for the variable <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bj_1%7D">, eventually feature vector of length 380 will be obtained. </p>
 
 ![](vignettes/figures/screens/cc-pssm1.JPG)
-![](vignettes/figures/screens/cc-pssm2.JPG)
 
-![](vignettes/figures/screens/discrete-cos.JPG)
+![CC-PSSM_{j1,j2}=\sum_{i=1}^{L-g}(P_{i,j1}-\overline {P_{j1}})(P_{i+g,j2}-\overline {P_{j2}})\\
+1\leq j1,j2\leq 20](https://latex.codecogs.com/svg.latex?%5Clarge%20CC-PSSM_%7Bj1%2Cj2%7D%3D%5Csum_%7Bi%3D1%7D%5E%7BL-g%7D%28P_%7Bi%2Cj1%7D-%5Coverline%20%7BP_%7Bj1%7D%7D%29%28P_%7Bi&plus;g%2Cj2%7D-%5Coverline%20%7BP_%7Bj2%7D%7D%29%5C%5C%201%5Cleq%20j1%2Cj2%5Cleq%2020)
 
-![](vignettes/figures/screens/discrete-wave.JPG)
+#### Usage of this feature in PSSMCOOL package:
+```
+ aa<-pssm_cc(system.file("extdata","C7GQS7.txt.pssm",package="PSSMCOOL"),18)
+head(aa, n = 50)
+```
+```
+##  [1]  0.0150  0.0009 -0.0080 -0.0197  0.0277 -0.0021  0.0034  0.0222 -0.0033
+## [10] -0.0087  0.0161 -0.0024 -0.0144  0.0161  0.0050 -0.0056 -0.0024 -0.0087
+## [19] -0.0165  0.0004 -0.0035  0.0101  0.0057 -0.0256 -0.0114 -0.0009 -0.0179
+## [28]  0.0027 -0.0024 -0.0127 -0.0113 -0.0155 -0.0056 -0.0020  0.0040 -0.0121
+## [37] -0.0061  0.0026 -0.0045  0.0110  0.0048  0.0076 -0.0167 -0.0103 -0.0117
+## [46]  0.0049 -0.0052 -0.0062  0.0077 -0.0117
+```
+
+## 15 Discrete cosine transform
+<p>Discrete cosine transforms can be described as follows:</p>
+
+![DCT(u,v)=\rho(u)\rho(v)\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)\cos\frac{(2x+1)u\pi}{2M}\cos\frac{(2y+1)v\pi}{2N}\\
+0\leq{u}\leq{M-1} \quad ,0\leq{v}\leq{N-1}](https://latex.codecogs.com/svg.latex?%5Clarge%20DCT%28u%2Cv%29%3D%5Crho%28u%29%5Crho%28v%29%5Csum_%7Bx%3D0%7D%5E%7BM-1%7D%5Csum_%7By%3D0%7D%5E%7BN-1%7Df%28x%2Cy%29%5Ccos%5Cfrac%7B%282x&plus;1%29u%5Cpi%7D%7B2M%7D%5Ccos%5Cfrac%7B%282y&plus;1%29v%5Cpi%7D%7B2N%7D%5C%5C%200%5Cleq%7Bu%7D%5Cleq%7BM-1%7D%20%5Cquad%20%2C0%5Cleq%7Bv%7D%5Cleq%7BN-1%7D)
+
+<p> where:</p>
+
+![\rho(u)=\left\{\begin{array}{ll}\sqrt{\frac{1}{M}} &  u=0\\ 
+\sqrt{\frac{2}{M}} & 1\leq{u}\leq{M-1}\end{array}\right.\\
+\rho(v)=\left\{\begin{array}{ll}\sqrt{\frac{1}{N}} & v=0\\ 
+\sqrt{\frac{2}{N}} & 1\leq{v}\leq{N-1}\end{array}\right.](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Crho%28u%29%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Csqrt%7B%5Cfrac%7B1%7D%7BM%7D%7D%20%26%20u%3D0%5C%5C%20%5Csqrt%7B%5Cfrac%7B2%7D%7BM%7D%7D%20%26%201%5Cleq%7Bu%7D%5Cleq%7BM-1%7D%5Cend%7Barray%7D%5Cright.%5C%5C%20%5Crho%28v%29%3D%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bll%7D%5Csqrt%7B%5Cfrac%7B1%7D%7BN%7D%7D%20%26%20v%3D0%5C%5C%20%5Csqrt%7B%5Cfrac%7B2%7D%7BN%7D%7D%20%26%201%5Cleq%7Bv%7D%5Cleq%7BN-1%7D%5Cend%7Barray%7D%5Cright.)
+
+<p> In above Equation, the matrix <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bf%28x%2Cy%29%5Cin%20P%5E%7BN%5Ctimes%20M%7D%7D"> is the input signal and here represents the PSSM with dimensions <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BN%5Ctimes%2020%7D">. According to the aforementioned equation, it is clear that the length of the resulting feature vector depends on the length of the original protein, so in most articles that have used this feature vector, the final feature vector DCT, which encodes a protein sequence by choosing the first 400 coefficients is obtained.</p>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-Discrete_Cosine_Transform(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(as, n = 50)
+```
+```
+##  [1]  3.7586 -0.8904 -1.8115  0.9043  1.3727 -1.3320 -0.1494  0.4772  0.3272
+## [10]  0.2038 -0.3245 -0.9033  1.0473  0.2255 -1.2477  0.3651  1.1561 -0.8085
+## [19] -0.7821  1.1143  9.4695 -1.3575 -0.4747  0.3296  1.2757  0.6152 -0.9732
+## [28]  1.0494 -0.5279  0.2443 -0.7019 -0.8720 -1.4273  0.1932 -0.0210  0.5049
+## [37] -0.8403 -1.4087  0.6963 -0.1914  6.2212 -0.6490 -0.3823  0.3074  0.6949
+## [46] -0.7493 -0.3240  1.9688 -0.0276  0.2205
+```
+
+## 16 Discrete Wavelet Transform
+<p>Wavelet transform (WT) is defined as the signal image <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bf%28t%29%7D"> on the wavelet function according to the following equation:</p>
+
+![T(a,b)=\sqrt{\frac{1}{a}}\int_0^t f(t)\psi{(\frac{t-b}{a})}dt](https://latex.codecogs.com/svg.latex?%5Clarge%20T%28a%2Cb%29%3D%5Csqrt%7B%5Cfrac%7B1%7D%7Ba%7D%7D%5Cint_0%5Et%20f%28t%29%5Cpsi%7B%28%5Cfrac%7Bt-b%7D%7Ba%7D%29%7Ddt)
+
+<p>Where a is a scale variable and b is a transition variable. <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Cpsi%7B%28%5Cfrac%7Bt-b%7D%7Ba%7D%29%7D%7D"> is the analyze wavelet function.  <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BT%28a%2Cb%29%7D"> is the conversion factor found for both specific locations on the signal as well as specific wavelet periods. Discrete wavelet transform can decompose amino acid sequences into coefficients in different states and then remove the noise component from the profile.Assuming that the discrete signal <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bf%28t%29%7D"> is equal to <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7Bx%5Bn%5D%7D">, where the length of the discrete signal is equal to N, we have the following equations:</p>
+
+![y_{j,low}[n]=\sum_{k=1}^N x[k]g[2n-k]\\
+y_{j,high}[n]=\sum_{k=1}^N x[k]h[2n-k]](https://latex.codecogs.com/svg.latex?%5Clarge%20y_%7Bj%2Clow%7D%5Bn%5D%3D%5Csum_%7Bk%3D1%7D%5EN%20x%5Bk%5Dg%5B2n-k%5D%5C%5C%20y_%7Bj%2Chigh%7D%5Bn%5D%3D%5Csum_%7Bk%3D1%7D%5EN%20x%5Bk%5Dh%5B2n-k%5D)
+
+<p>In these equations, g is the low-pass filter and h is the high-pass filter. <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7By_%7Blow%7D%5Bn%5D%7D"> is the approximate coefficient (low-frequency components) of the signal and <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7By_%7Bhigh%7D%5Bn%5D%7D"> is the exact coefficient (high-frequency components) of the signal.This decomposition is repeated to further increase the frequency resolution, and the approximate coefficients are decomposed with high and low pass filters and then are sampled lower. By increasing the level of j decomposition, we can see more accurate characteristics of the signal. We use level 4 DWT and calculate the maximum, minimum, mean, and standard deviation of different scales (4 levels of both coefficients High and low frequency). Because high-frequency components have high noise, only low-frequency components are more important.A schematic diagram of a level 4 DWT is shown in Figure 13:</p>
+
+<br></br>
+
 ![](vignettes/figures/screens/discrete-wave2.JPG)
 
+<br></br>
+<p>The PSSM has 20 columns. Therefore, the PSSM consists of 20 types of discrete signals (L-length). Therefore, we used the level 4 DWT as mentioned above to analyze these discrete signals from PSSM (each column) and to extract the PSSM-DWT feature vector from the PSSM, which is a feature vector of length 80.</p>
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ as<-dwt_PSSM(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(as, n = 50)
+```
+```
+##  [1] -1.2032  2.1352  0.0547  0.4630 -0.9770  2.0423  0.0309  0.4129 -0.7134
+## [10]  2.3055  0.0884  0.4222 -0.6967  1.7063  0.0818  0.4345 -0.7764  1.0817
+## [19]  0.0411  0.3327 -1.2524  3.9385  0.0943  0.5317 -0.8283  2.3753  0.0723
+## [28]  0.4349 -0.8160  2.0562  0.0561  0.4058 -0.7764  2.6698  0.0822  0.4252
+## [37] -0.6910  2.2393  0.0964  0.3850 -0.7962  2.7484  0.0878  0.4019 -0.6288
+## [46]  1.9567  0.0677  0.4157 -0.7807  1.9298
+```
+
+
 ## 17 Disulfide_PSSM
-<font size="4">For the purpose of predicting disulfide bond in protein at first, the total number of cysteine amino
+<p>For the purpose of predicting disulfide bond in protein at first, the total number of cysteine amino
 acids in the protein sequence is counted and their position in the protein sequence is identified.
 Then, using a sliding window with a length of 13, moved on the PSSM from top to bottom so
 that the middle of the window is on the amino acid cysteine, then the rows below the matrix obtained
@@ -154,10 +585,51 @@ corresponding feature vectors are stuck together to get a feature vector of leng
 these compounds.Finally, the table obtained in this way will have the number of rows equal to the
 number of all pairwise combinations of these cysteines and the number of columns will be equal to
 521 (the first column includes the name of these pair combinations). It is easy to divide this
-table into training and testing data and predict the desired disulfide bonds between cysteines.Figure 14 shows a schematic of this process:</font>
-
+table into training and testing data and predict the desired disulfide bonds between cysteines.Figure 14 shows a schematic of this process:</p>
 ![](vignettes/figures/screens/disulfid1.JPG)
-![](vignettes/figures/screens/disulfid2.JPG)
+
+#### Usage of this feature in PSSMCOOL package:
+```
+ aq<-disulfid(system.file("extdata", "C7GQS7.txt.pssm", package="PSSMCOOL"))
+head(aq[,1:50])
+```
+```
+##      1      2     3      4      5     6      7      8      9     10     11
+## 1 c1c2 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+## 2 c1c3 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+## 3 c1c4 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+## 4 c1c5 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+## 5 c1c6 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+## 6 c1c7 0.2689 0.982 0.7311 0.1192 0.018 0.9526 0.7311 0.0474 0.8808 0.0474
+##       12     13  14     15     16     17  18    19     20     21  22     23
+## 1 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+## 2 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+## 3 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+## 4 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+## 5 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+## 6 0.1192 0.7311 0.5 0.1192 0.1192 0.7311 0.5 0.018 0.1192 0.0474 0.5 0.2689
+##       24     25     26     27     28     29     30  31  32     33  34     35
+## 1 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+## 2 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+## 3 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+## 4 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+## 5 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+## 6 0.8808 0.1192 0.0474 0.1192 0.0474 0.0474 0.2689 0.5 0.5 0.1192 0.5 0.8808
+##       36  37     38     39    40     41     42     43     44     45     46  47
+## 1 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+## 2 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+## 3 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+## 4 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+## 5 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+## 6 0.2689 0.5 0.2689 0.9526 0.982 0.8808 0.2689 0.1192 0.2689 0.9526 0.0474 0.5
+##       48     49     50
+## 1 0.8808 0.0474 0.2689
+## 2 0.8808 0.0474 0.2689
+## 3 0.8808 0.0474 0.2689
+## 4 0.8808 0.0474 0.2689
+## 5 0.8808 0.0474 0.2689
+## 6 0.8808 0.0474 0.2689
+```
 
 ## 18 DP-PSSM
 <p>The extraction of this feature is obtained using the following equations from the PSSM:</p>
@@ -579,7 +1051,7 @@ url <- "https://raw.githubusercontent.com/BioCool-Lab/PSSMCOOL/main/classificati
 download.file(url, './NegativeData.csv')
 negative_data <- read.csv("./NegativeData.csv", header = TRUE)
 ```
-####  ###############################---*Positive feature extraction*---####################################
+####  #####################---*Positive feature extraction*---##########################
 ####  # *Feature extraction*
 ```
 positiveFeatures<- c() 
@@ -601,7 +1073,7 @@ for(i in 1:dim(positive_data)[1]) {
 pos_class <- rep("Interaction", dim(positiveFeatures)[1]) 
 positiveFeatures2 <- cbind(positiveFirstColumn, positiveFeatures, pos_class) 
 ```
-####   ###############################---*Negative feature extraction*---#####################################
+####   ####################---*Negative feature extraction*---##########################
 ####   # *Feature extraction*
 ```
 negativeFeatures <- c() 
@@ -628,7 +1100,7 @@ negativeFeatures2 <- cbind(negativeFirstColumn, negativeFeatures, neg_class)
 mainDataSet <- rbind(positiveFeatures2, negativeFeatures2) 
 ```
 
-####  ###############################---*Preparing data set for model training*---###########################
+####  ####################---*Preparing data set for model training*---#################
 ####  # *In the following we are going to carry out classification on the data we have prepared so far (mainDataSet)*
 ####  # *First we need to install and load caret package and its dependencies*
 ```
@@ -657,7 +1129,7 @@ bmp.R2.submission.data.df$Class <-
   as.factor(bmp.R2.submission.data.df$Class) 
 write.csv(bmp.R2.submission.data.df, 'DataSet.csv') 
 ```
-#### ###############################---*Training model with three classifier*---#############################
+#### #####################---*Training model with three classifier*---###################
 
 #### # *setting.the.trainControl*
 ```
@@ -674,12 +1146,12 @@ setting.the.trainControl.3 <- function()
   return(fitControl) 
 } 
 ```
-#### # ####################---*setting cross validation parameters*---########################################
+#### # ############---*setting cross validation parameters*---###########################
 ```
 trainControl.for.PSSM <- setting.the.trainControl.3() 
 ```
 
-#### # ###################---*10-fold cross-validation using "Bagged CART (treebag)" classifier*---#######################
+#### # #########---*10-fold cross-validation using "Bagged CART (treebag)" classifier*---###
 ```
 cross.validation.bulit.model.treebag <- 
   train(Class ~ ., data = bmp.R2.submission.data.df, 
@@ -692,7 +1164,7 @@ print(cross.validation.bulit.model.treebag$results)
 ######  # 1---none---0.9965351---0.9930707---0.005582867---0.01116413
 
 
-#### # #################---*10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier*---#####################
+#### # #######---*10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier*---##
 ```
 cross.validation.bulit.model.C5.0Tree <- 
   train(Class ~ ., data = bmp.R2.submission.data.df, 
@@ -704,7 +1176,7 @@ print(cross.validation.bulit.model.C5.0Tree$results)
 ######  # parameter---Accuracy----Kappa----AccuracySD----KappaSD
 ######  # 1----none---0.9976911---0.9953822---0.004028016---0.008056142
 
-#### # ##############---*10-fold cross-validation using "Partial Least Squares (pls)" classifier*---#########################
+#### # ####---*10-fold cross-validation using "Partial Least Squares (pls)" classifier*---###
 ```
 cross.validation.bulit.model.pls <-
   train(Class ~ ., data = bmp.R2.submission.data.df, 
