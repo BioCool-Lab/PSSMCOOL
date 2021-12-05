@@ -586,6 +586,7 @@ these compounds.Finally, the table obtained in this way will have the number of 
 number of all pairwise combinations of these cysteines and the number of columns will be equal to
 521 (the first column includes the name of these pair combinations). It is easy to divide this
 table into training and testing data and predict the desired disulfide bonds between cysteines.Figure 14 shows a schematic of this process:</p>
+
 ![](vignettes/figures/screens/disulfid1.JPG)
 
 #### Usage of this feature in PSSMCOOL package:
@@ -778,6 +779,7 @@ head(as, n = 50)
 ![V_{smoothed_i}=V_{i-\frac{(ws-1)}{2}}+...+V_i+...+V_{i+\frac{(ws-1)}{2}}](https://latex.codecogs.com/svg.latex?%5Clarge%20V_%7Bsmoothed_i%7D%3DV_%7Bi-%5Cfrac%7B%28ws-1%29%7D%7B2%7D%7D&plus;...&plus;V_i&plus;...&plus;V_%7Bi&plus;%5Cfrac%7B%28ws-1%29%7D%7B2%7D%7D)
 
 <p>In this regard, <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7BV_i%7D">'s represent the row vectors of the PSSM. To obtain the first and last rows of the smoothed_PSSM corresponding to the N-terminal and C-terminal of the protein, zero vectors are added to the beginning and end of the PSSM. The Figure 15 represents these processes schematically.</p>
+
 ![](vignettes/figures/screens/smoothed.JPG)
 
 <p>Now, using another parameter w called the slider window size, which its default value is 11 and can change in the interval (3,41)(ste=2), for the resid <img src="https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cboldsymbol%7B%5Calpha_i%7D">, the feature vector obtained from the smoothed-PSSM will be in the form as follows:</p>
