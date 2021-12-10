@@ -1031,7 +1031,7 @@ head(w, n = 20)
 ```
 #### # *setting up working environment and downloading necessary files from GitHub*
 ```
-current_directory <- "F:\\article400\\javad2\\saber"
+current_directory <- "/home/PSSMCOOL/" # Please provide your desired directory. 
 setwd(current_directory)
 ```
 #### # *Downloading the required PSSM files*
@@ -1131,7 +1131,7 @@ bmp.R2.submission.data.df$Class <-
   as.factor(bmp.R2.submission.data.df$Class) 
 write.csv(bmp.R2.submission.data.df, 'DataSet.csv') 
 ```
-#### #####################---*Training model with three classifier*---###################
+#### #####################---*Training model with two classifier*---###################
 
 #### # *setting.the.trainControl*
 ```
@@ -1163,7 +1163,7 @@ cross.validation.bulit.model.treebag <-
 print(cross.validation.bulit.model.treebag$results) 
 ```
 ######  # parameter---Accuracy-----Kappa-----AccuracySD----KappaSD
-######  # 1---none---0.9965351---0.9930707---0.005582867---0.01116413
+######  # 1--none---0.9965351---0.9930707---0.005582867---0.01116413
 
 
 #### # #######---*10-fold cross-validation using "Single C5.0 Tree (C5.0Tree)" classifier*---##
@@ -1176,21 +1176,8 @@ cross.validation.bulit.model.C5.0Tree <-
 print(cross.validation.bulit.model.C5.0Tree$results) 
 ```
 ######  # parameter---Accuracy----Kappa----AccuracySD----KappaSD
-######  # 1----none---0.9976911---0.9953822---0.004028016---0.008056142
+######  # 1--none---0.9976911---0.9953822---0.004028016---0.008056142
 
-#### # ####---*10-fold cross-validation using "Partial Least Squares (pls)" classifier*---###
-```
-cross.validation.bulit.model.pls <-
-  train(Class ~ ., data = bmp.R2.submission.data.df, 
-        method = "pls", 
-        trControl = trainControl.for.PSSM, 
-        verbose = FALSE) 
-print(cross.validation.bulit.model.pls$results) 
-```
-######  #---ncomp---Accuracy----Kappa----AccuracySD----KappaSD
-######  #1----1----0.5005948---0.00231924--0.01330889--0.02666192
-######  #2----2----0.5070671---0.01413974--0.03944775--0.07848283
-######  #3----3----0.5324142---0.06473979--0.02790055--0.05655902
 
 ### ####################---SessionInFo in R---##########################
 ![](vignettes/figures/sessionInfo.PNG)

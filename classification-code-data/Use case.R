@@ -84,7 +84,7 @@ bmp.R2.submission.data.df$Class <-
 write.csv(bmp.R2.submission.data.df, 'DataSet.csv')
 
 
-############################### Training model with three classifier ############################################
+############################### Training model with two classifier ############################################
 
 #setting.the.trainControl===========
 bmp.R2.submission.data.df <- read.csv("DataSet.csv")
