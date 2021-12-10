@@ -3,7 +3,7 @@ install.packages("PSSMCOOL")
 library(PSSMCOOL)
 
 # setting up working environment and downloading necessary files from GitHub
-current_directory <- "D:/Paper submission/Alireza Mohammadi/second revise/R code/"
+current_directory <- "/home/PSSMCOOL/" # Please provide your desired directory. 
 setwd(current_directory)
 # Downloading the required PSSM files
 pssm_url <- 'https://github.com/BioCool-Lab/PSSMCOOL/raw/main/classification-code-data/all_needed_pssms90.zip'
@@ -123,18 +123,3 @@ cross.validation.bulit.model.C5.0Tree <-
 print(cross.validation.bulit.model.C5.0Tree$results)
 #parameter  Accuracy     Kappa  AccuracySD     KappaSD
 #1      none 0.9976911 0.9953822 0.004028016 0.008056142
-
-
-#10-fold cross-validation using "Partial Least Squares (pls)" classifier=======
-cross.validation.bulit.model.pls <- 
-  train(Class ~ ., data = bmp.R2.submission.data.df, 
-        method = "pls", 
-        trControl = trainControl.for.PSSM, 
-        verbose = FALSE)
-print(cross.validation.bulit.model.pls$results)
-#  ncomp  Accuracy      Kappa AccuracySD    KappaSD
-#1     1 0.5005948 0.00231924 0.01330889 0.02666192
-#2     2 0.5070671 0.01413974 0.03944775 0.07848283
-#3     3 0.5324142 0.06473979 0.02790055 0.05655902
-
-
