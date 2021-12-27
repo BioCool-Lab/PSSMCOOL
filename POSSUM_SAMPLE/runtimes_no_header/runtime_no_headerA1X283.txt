@@ -1,0 +1,14 @@
+Begin to check input sequences 
+End to check input sequences 
+
+Current platform is Windows OS 
+
+The specified output file name is rpssm_A1X283
+The specified output file directory is output_no_header/
+
+Start to create output_no_header/ directory (if needed)
+Success to create output_no_header/ directory (if needed)
+Start to extract rpssm feature
+python src/possum.py -i C:\Users\LapTop\Downloads\Programs\POSSUM_Standalone_Toolkit\POSSUM_Standalone_Toolkit\input\sample_fastas\A1X283.fasta -o output_no_header/rpssm_A1X283.csv -t rpssm -p input/sample_pssms90 -a 0 -b 0
+Success to extract rpssm feature
+command took 0:0:0.67 (0.67s total)
